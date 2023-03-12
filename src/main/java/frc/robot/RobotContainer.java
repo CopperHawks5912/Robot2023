@@ -13,20 +13,17 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.ManualDriveCommand;
-import frc.robot.commands.Aiming.TargetLowerConeNodeCommand;
-import frc.robot.commands.Aiming.TargetUpperConeNodeCommand;
-import frc.robot.commands.Arm.DefaultArmPositionCommand;
-import frc.robot.commands.Arm.LowerConeArmPositionCommand;
-import frc.robot.commands.Arm.UpperConeArmPositionCommand;
-import frc.robot.commands.Grabber.SwitchGrabberCommand;
+import frc.robot.commands.Arm.PositionArmCommand;
+import frc.robot.commands.Grabber.CloseGrabberCommand;
+import frc.robot.commands.Grabber.OpenGrabberCommand;
 import frc.robot.commands.LED.AllianceLEDCommand;
 import frc.robot.commands.LED.ConeLEDCommand;
 import frc.robot.commands.LED.CubeLEDCommand;
 import frc.robot.commands.LED.RainbowLEDCommand;
-import frc.robot.commands.ShiftGear.HighGearCommand;
-import frc.robot.commands.ShiftGear.LowGearCommand;
+import frc.robot.commands.ShiftGear.SwitchGearCommand;
 import frc.robot.subsystems.AddressableLEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -51,7 +48,7 @@ public class RobotContainer {
  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
-  //private final CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
+  private final CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
       
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -75,29 +72,29 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_driverController.x()
-      .onTrue( new HighGearCommand(m_GearShiftSubsystem))
-      .onFalse( new LowGearCommand(m_GearShiftSubsystem));
-    // m_driverController.y()
-    //   .onTrue( new SwitchGrabberCommand(m_GrabberSubsystem));
-    //  m_driverController.b()
-    //    .onTrue( new DefaultArmPositionCommand(m_armSubsystem));
-    //  m_driverController.a()
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem));
-    // m_driverController.leftBumper()
-    //   .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
-    // m_driverController.rightBumper()
-    //   .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+      .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
+    m_driverController.leftBumper()
+      .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
+    m_driverController.rightBumper()
+      .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
-    // m_secondController.button(1)
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem) );
-    // m_secondController.button(2)
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem) );
-    // m_secondController.button(3)
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem) );
-    //   m_secondController.button(4)
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem) );
-    //   m_secondController.button(5)
-    //   .onTrue( new LowerConeArmPositionCommand(m_armSubsystem) );
+    m_secondController.button(ControllerConstants.kButtonBlueLower)
+      .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
+    m_secondController.button(ControllerConstants.kButtonBlueLower)
+      .onTrue( new CloseGrabberCommand(m_GrabberSubsystem) );     
+    
+    m_secondController.button(ControllerConstants.kButtonRedUpper1)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kSubstationPosition) );
+    m_secondController.button(ControllerConstants.kButtonRedUpper2)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
+    m_secondController.button(ControllerConstants.kButtonRedUpper3)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kUpperCubePosition) );
+    m_secondController.button(ControllerConstants.kButtonRedLower1)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition) );
+    m_secondController.button(ControllerConstants.kButtonRedLower2)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
+    m_secondController.button(ControllerConstants.kButtonRedLower3)
+      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
   }
 
   /**

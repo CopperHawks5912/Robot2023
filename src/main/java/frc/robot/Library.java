@@ -48,24 +48,4 @@ public final class Library {
         talon.setInverted(invert);
         talon.setNeutralMode( NeutralMode.Coast);
       }      
-      public static void initializeVictorSPX( WPI_VictorSPX talon, boolean invert, WPI_TalonSRX masterTalon ) { // Creates and configures a TalonFX
-  
-        talon.configFactoryDefault();
-        if( masterTalon != null ) 
-          talon.follow(masterTalon);
-        else
-          talon.stopMotor();
-        talon.setInverted(invert);
-        talon.setNeutralMode( NeutralMode.Brake);
-      }   
-      public static void initializeTalonSRX( WPI_TalonSRX talon, boolean invert, WPI_TalonSRX masterTalon ) { // Creates and configures a TalonFX
-  
-        talon.configFactoryDefault();
-        if( masterTalon != null ) 
-          talon.follow(masterTalon);
-        else
-          talon.stopMotor();
-        talon.setInverted(invert);
-        talon.setNeutralMode( NeutralMode.Brake);
-      }   
 }

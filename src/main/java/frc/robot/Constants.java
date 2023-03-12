@@ -31,6 +31,7 @@ public final class Constants {
     public static final double kGearRatio = 24;
     public static final double kWheelRadius = 4; 
   }
+
   public static class ArmConstants {
     public static final int kPIDProfileSlotIndex = 0;
     public static final int kPIDLoopIndex = 0;
@@ -45,30 +46,47 @@ public final class Constants {
     /*positions are an array of angles in encoder positions - 
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
-    public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0);
-    public static final ArmPosition kLowerConePosition = new ArmPosition(0, 600);
-    public static final ArmPosition kUpperConePosition = new ArmPosition(2000, 0);
-    public static final ArmPosition kUpperCubePosition = new ArmPosition(0, 0);
-    public static final ArmPosition kLowerCubePosition = new ArmPosition(0, 0);
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 0);
-    public static final ArmPosition kGroundPosition = new ArmPosition(0, 0);
+    public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
+    public static final ArmPosition kLowerConePosition = new ArmPosition(0, 600, "Lower Cone");
+    public static final ArmPosition kUpperConePosition = new ArmPosition(2000, 0, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition(0, 0, "Upper Cube");
+    public static final ArmPosition kLowerCubePosition = new ArmPosition(0, 0, "Lower Cube");
+    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 0, "Substation");
+    public static final ArmPosition kGroundPosition = new ArmPosition(0, 0, "Ground");
 
     public static final int kEncoderCountsPerRev = 4096;
-    public static final double kShoulderGearRatio = 25.0;  //100:1 gearbox * 1:4 chain sprockets = 25:1 overall ratio
-    public static final double kElbowGearRatio = 25.0;     //100:1 gearbox * 1:4 chain sprockets = 25:1 overall ratio
+    public static final double kShoulderGearRatio = 4.0;  //4:1 chain sprockets (100:1 gearbox is in front of the encoder)
+    public static final double kElbowGearRatio = 4.0;  //4:1 chain sprockets (100:1 gearbox is in front of the encoder)
   }
+  
   public static class ControllerConstants
   {
     public static final int kDriverControllerPort = 0;
     public static final int kSecondControllerPort = 1;
     
+    public static final int kButtonBlueUpper = 1;
+    public static final int kButtonBlueLower =  5;
+    public static final int kButtonRedUpper1 =  2;
+    public static final int kButtonRedUpper2 =  3;
+    public static final int kButtonRedUpper3 =  4;
+    public static final int kButtonRedLower1 =  6;
+    public static final int kButtonRedLower2 =  7;
+    public static final int kButtonRedLower3 =  8;
+    public static final int kButtonBlack1    =  9;
+    public static final int kButtonBlack2    = 10;
+    public static final int kJoystickUp      = 11;
+    public static final int kJoystickRight   = 12;
+    public static final int kJoystickDown    = 13;
+    public static final int kJoystickLeft    = 14;
   }
+  
   public static class DIOConstants
   {
     public static final int kShoulderLimitSwitchPort = 9;
     public static final int kElbowLimitSwitchPort = 8;
     
   }
+  
   public static class CANConstants{
     public static final int kNone = -1;
   
@@ -90,15 +108,18 @@ public final class Constants {
     public static final int kElbowTalonID = 15;
 
   }
+  
   public static class PWMConstants{
     public static final int kLEDStringID = 0;
   }
+  
   public static class PCMConstants{
     public static final int kHighGearID =1;
     public static final int kLowGearID = 0; 
     public static final int kGrabberOpenID = 2;
     public static final int kGrabberCloseID = 3;
   }
+  
   public static class LLConstants{
     public static final int kLowerConePipeline = 0;
     public static final int kUpperConePipeline = 1;
@@ -106,6 +127,7 @@ public final class Constants {
     public static final double kLimeLightHeightMeters = 0.495;
     public static final double kLimeLightAngle = 0;
   }
+  
   public static class FieldConstants{
     public static final double kLowerConeHeightMeters = 0.61;
     public static final double kUpperConeHeightMeters = 1.11;

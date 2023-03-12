@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -16,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.DIOConstants;
-import frc.robot.Library;
 import frc.robot.utilities.ArmPosition;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -34,10 +35,23 @@ public class ArmSubsystem extends SubsystemBase {
 	     report to DS if action fails.*/
     
     m_currentTarget = ArmConstants.kDefaultPosition;
-    Library.initializeTalonSRX(m_shoulderTalon, false, null);
-    Library.initializeVictorSPX(m_shoulderVictor, true, m_shoulderTalon);
-    Library.initializeTalonSRX(m_elbowTalon, false, null);
     
+    m_shoulderTalon.configFactoryDefault();
+    m_shoulderVictor.configFactoryDefault();
+    m_elbowTalon.configFactoryDefault();
+    
+    m_shoulderVictor.stopMotor();
+    m_shoulderVictor.setInverted(InvertType.None);
+    m_shoulderVictor.setNeutralMode( NeutralMode.Coast); 
+
+    m_shoulderTalon.stopMotor();
+    m_shoulderTalon.follow(m_shoulderTalon);
+    m_shoulderTalon.setInverted(InvertType.OpposeMaster);
+    m_shoulderTalon.setNeutralMode( NeutralMode.Coast); 
+    
+    m_elbowTalon.stopMotor();
+    m_elbowTalon.setInverted(InvertType.None);
+    m_elbowTalon.setNeutralMode( NeutralMode.Coast);   
     
     /* (sample code comment)
        set deadband to super small 0.001 (0.1 %).
@@ -82,8 +96,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 		/* Zero the sensor once on robot boot up */
 		m_shoulderTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
-		m_elbowTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
- 
+		m_elbowTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs); 
   }
 
   @Override
@@ -96,16 +109,15 @@ public class ArmSubsystem extends SubsystemBase {
      SmartDashboard.putNumber( "Shoulder Target", m_currentTarget.GetShoulderPosition() );
      SmartDashboard.putNumber( "Elbow Target", m_currentTarget.GetElbowPosition() );
      SmartDashboard.putBoolean( "Shoulder Switch", m_shoulderLimitSwitch.get() );
-     SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );
-  
+     SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );  
   }
 
   public void moveArmToPosition( ArmPosition armPosition )
   {
      m_currentTarget = armPosition;
     
-     double targetShoulderPos = armPosition.GetShoulderPosition();// * ArmConstants.kEncoderCountsPerRev * ArmConstants.kShoulderGearRatio;
-     double targetElbowPos = armPosition.GetElbowPosition();// * ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio;
+     double targetShoulderPos = armPosition.GetShoulderPosition();
+     double targetElbowPos = armPosition.GetElbowPosition();
     
     // if( m_shoulderLimitSwitch.get() )
     // {     
@@ -138,22 +150,23 @@ public class ArmSubsystem extends SubsystemBase {
   {
     int kShoulderMeasuredPosHorizontal = 5400; // Position measured when arm is horizontal
     int kElbowMeasuredEffectivePosHorizontal = 2400; //Position measured when arm is horizontal
-    double maxGravityFFHorizontalElbow = 0.08;  //NEED TO CALC YET. power required to hold arm horizontal.
-    double maxGravityFFVerticalElbow = 0.08;  //NEED TO CALC YET. power required to hold arm horizontal.
+    double maxGravityFFHorizontalElbow = 0.08;  //power required to hold arm horizontal.
+    double maxGravityFFVerticalElbow = 0.08;  //power required to hold arm horizontal.
 
-    double kTicksPerDegree = 4096 * 4 / 360; //100:1 gear box, 4:1 sprocket reduction\
+    double kElbowTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio / 360; //100:1 gear box, 4:1 sprocket reduction\
+    double kShoulderTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kShoulderGearRatio / 360; //100:1 gear box, 4:1 sprocket reduction\
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition();
     double currentElbowPos = m_elbowTalon.getSelectedSensorPosition();
     
     double effectiveElbowPos = currentShoulderPos + currentElbowPos;
 
     //calculate the maxGravityFF for the shoulder based on the elbow position
-    double degrees = (effectiveElbowPos - kElbowMeasuredEffectivePosHorizontal) / kTicksPerDegree;
+    double degrees = (effectiveElbowPos - kElbowMeasuredEffectivePosHorizontal) / kElbowTicksPerDegree;
     double radians = java.lang.Math.toRadians(degrees);
     double cosineScalar = java.lang.Math.cos(radians);
     double maxGravityFF = maxGravityFFVerticalElbow + ( cosineScalar * ( maxGravityFFHorizontalElbow - maxGravityFFVerticalElbow ) );
     
-    degrees = (currentShoulderPos - kShoulderMeasuredPosHorizontal) / kTicksPerDegree;
+    degrees = (currentShoulderPos - kShoulderMeasuredPosHorizontal) / kShoulderTicksPerDegree;
     radians = java.lang.Math.toRadians(degrees);
     cosineScalar = java.lang.Math.cos(radians);
 
@@ -164,7 +177,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double calculateElbowArbitraryFeedForward( )
   {
     int kMeasuredEffectivePosHorizontal = 2400; //Position measured when arm is horizontal
-    double kTicksPerDegree = 4096 * 4 / 360; //100:1 gear box, 4:1 sprocket reduction\
+    double kTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio / 360; 
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition();
     double currentElbowPos = m_elbowTalon.getSelectedSensorPosition();
     double maxGravityFF = 0.07;  //NEED TO CALC YET. power required to hold arm horizontal.

@@ -4,29 +4,26 @@
 
 package frc.robot.commands.Arm;
 
-import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.utilities.ArmPosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class UpperConeArmPositionCommand extends CommandBase {
+public class PositionArmCommand extends CommandBase {
   private final ArmSubsystem m_armSubsystem;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public UpperConeArmPositionCommand(ArmSubsystem armSubsystem) {
+  private final ArmPosition m_targetArmPosition;
+  
+  public PositionArmCommand(ArmSubsystem armSubsystem, ArmPosition targetArmPosition) {
     m_armSubsystem = armSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);
+    m_targetArmPosition = targetArmPosition;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armSubsystem.moveArmToPosition(ArmConstants.kUpperConePosition);
+    m_armSubsystem.moveArmToPosition(m_targetArmPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

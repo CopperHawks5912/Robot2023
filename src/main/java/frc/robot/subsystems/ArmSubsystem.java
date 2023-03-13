@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CANConstants;
 import frc.robot.Constants.DIOConstants;
+import frc.robot.utilities.ArmArbitraryFFMode;
 import frc.robot.utilities.ArmPosition;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -102,48 +103,54 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-     SmartDashboard.putNumber( "Shoulder Position", m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
-     SmartDashboard.putNumber( "Elbow Position", m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
-     SmartDashboard.putNumber( "Shoulder Power", m_shoulderTalon.getMotorOutputPercent() );
-     SmartDashboard.putNumber( "Elbow Power", m_elbowTalon.getMotorOutputPercent() );
-     SmartDashboard.putNumber( "Shoulder Target", m_currentTarget.GetShoulderPosition() );
-     SmartDashboard.putNumber( "Elbow Target", m_currentTarget.GetElbowPosition() );
-     SmartDashboard.putBoolean( "Shoulder Switch", m_shoulderLimitSwitch.get() );
-     SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );  
+    SmartDashboard.putData(this);
+    SmartDashboard.putNumber( "Shoulder Position", m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
+    SmartDashboard.putNumber( "Elbow Position", m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
+    SmartDashboard.putNumber( "Shoulder Power", m_shoulderTalon.getMotorOutputPercent() );
+    SmartDashboard.putNumber( "Elbow Power", m_elbowTalon.getMotorOutputPercent() );
+    SmartDashboard.putNumber( "Shoulder Target", m_currentTarget.GetShoulderPosition() );
+    SmartDashboard.putNumber( "Elbow Target", m_currentTarget.GetElbowPosition() );
+    SmartDashboard.putBoolean( "Shoulder Switch", m_shoulderLimitSwitch.get() );
+    SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );  
+  }
+
+  public void manualControl( double shoulderSpeed, double elbowSpeed ) {
+    controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kNone );
+    controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.PercentOutput, shoulderSpeed, ArmArbitraryFFMode.kNone );
+  }
+  
+  public void controlJoint( WPI_TalonSRX talon, DigitalInput limitSwitch, ControlMode controlMode, double controlValue, ArmArbitraryFFMode arbitraryFFMode ) { 
+    if( limitSwitch.get() ) {     
+      talon.stopMotor();  
+      talon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
+      if( controlValue > 0 )
+        return;//don't do anything - we do dont want to push the arm through the limit switch
+    }   
+    double arbitraryFF;
+    switch( arbitraryFFMode ) { 
+      case kNone:
+        talon.set( controlMode, controlValue );
+        break;
+      case kShoulder:
+        arbitraryFF = calculateShoulderArbitraryFeedForward();
+        talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, arbitraryFF );
+        break;   
+      case kElbow:
+        arbitraryFF = calculateElbowArbitraryFeedForward();
+        talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, arbitraryFF );
+        break;
+    }
   }
 
   public void moveArmToPosition( ArmPosition armPosition )
   {
-     m_currentTarget = armPosition;
+    m_currentTarget = armPosition;
     
-     double targetShoulderPos = armPosition.GetShoulderPosition();
-     double targetElbowPos = armPosition.GetElbowPosition();
-    
-    // if( m_shoulderLimitSwitch.get() )
-    // {     
-    //   m_shoulderTalon.stopMotor();  
-    //   m_shoulderTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
-    // }
-    // else
-    // {
-    //   double arbitraryFF = calculateShoulderArbitraryFeedForward();
-    //   m_shoulderTalon.set( ControlMode.MotionMagic, targetShoulderPos,  DemandType.ArbitraryFeedForward, arbitraryFF );
-    // }
-    if( m_elbowLimitSwitch.get() )
-    {     
-      m_elbowTalon.stopMotor();  
-      m_elbowTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
-    }
-    //else
-    {
-      if( m_elbowLimitSwitch.get() && targetElbowPos <= m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex))
-      {}
-      else
-      {
-        double arbitraryFF = calculateElbowArbitraryFeedForward();
-        m_elbowTalon.set( ControlMode.MotionMagic, targetElbowPos, DemandType.ArbitraryFeedForward, arbitraryFF );
-      }
-    }
+    double targetShoulderPos = armPosition.GetShoulderPosition();
+    double targetElbowPos = armPosition.GetElbowPosition();
+     
+    controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.MotionMagic, targetShoulderPos, ArmArbitraryFFMode.kShoulder );
+    controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.MotionMagic, targetElbowPos, ArmArbitraryFFMode.kElbow );
   }
 
   private double calculateShoulderArbitraryFeedForward( )

@@ -9,8 +9,6 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import frc.robot.Constants.LLConstants;
 import frc.robot.utilities.LimelightHelpers;
@@ -18,6 +16,7 @@ import frc.robot.utilities.LimelightHelpers;
 /**
  * Common functions that are used in multiple classes
  */
+
 public final class Library {
 
     public static double bound(double value, double min, double max) {

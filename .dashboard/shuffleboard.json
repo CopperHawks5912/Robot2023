@@ -1,0 +1,226 @@
+{
+  "tabPane": [
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pose X",
+              "_title": "Pose X",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pose Y",
+              "_title": "Pose Y",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Sensor",
+              "_title": "Left Sensor",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Right Sensor",
+              "_title": "Right Sensor",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Rotate Speed",
+              "_title": "Rotate Speed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Forward Speed",
+              "_title": "Forward Speed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,0": {
+            "size": [
+              3,
+              3
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_title": "Arm Subsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "TOP",
+              "_children": [
+                {
+                  "_type": "Basic Subsystem",
+                  "_source0": "network_table:///SmartDashboard/ArmSubsystem",
+                  "_title": "Commands",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Grid Layout",
+                  "_title": "Arm",
+                  "_glyph": 149,
+                  "_showGlyph": false,
+                  "Layout/Number of columns": 2,
+                  "Layout/Number of rows": 1,
+                  "Layout/Label position": "TOP",
+                  "_children": {
+                    "0,0": {
+                      "_type": "List Layout",
+                      "_title": "Shoulder",
+                      "_glyph": 149,
+                      "_showGlyph": false,
+                      "Layout/Label position": "LEFT",
+                      "_children": [
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Shoulder Position",
+                          "_title": "Shoulder Position",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Shoulder Power",
+                          "_title": "Shoulder Power",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Shoulder Target",
+                          "_title": "Shoulder Target",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Boolean Box",
+                          "_source0": "network_table:///SmartDashboard/Shoulder Switch",
+                          "_title": "Shoulder Switch",
+                          "_glyph": 148,
+                          "_showGlyph": false,
+                          "Colors/Color when true": "#7CFC00FF",
+                          "Colors/Color when false": "#8B0000FF"
+                        }
+                      ]
+                    },
+                    "1,0": {
+                      "_type": "List Layout",
+                      "_title": "Elbow",
+                      "_glyph": 149,
+                      "_showGlyph": false,
+                      "Layout/Label position": "LEFT",
+                      "_children": [
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Elbow Position",
+                          "_title": "Elbow Position",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Elbow Power",
+                          "_title": "Elbow Power",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Text View",
+                          "_source0": "network_table:///SmartDashboard/Elbow Target",
+                          "_title": "Elbow Target",
+                          "_glyph": 148,
+                          "_showGlyph": false
+                        },
+                        {
+                          "_type": "Boolean Box",
+                          "_source0": "network_table:///SmartDashboard/Elbow Switch",
+                          "_title": "Elbow Switch",
+                          "_glyph": 148,
+                          "_showGlyph": false,
+                          "Colors/Color when true": "#7CFC00FF",
+                          "Colors/Color when false": "#8B0000FF"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "LiveWindow",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {}
+      }
+    }
+  ],
+  "windowGeometry": {
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1536.0,
+    "height": 824.0
+  }
+}

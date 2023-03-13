@@ -1,0 +1,55 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Rotate Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="317"/>
+	</widget>
+	<widget field="Forward Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="297"/>
+	</widget>
+	<widget field="ArmSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="236" y="37"/>
+		<width>306</width>
+	</widget>
+	<widget field="Elbow Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="413" y="123"/>
+	</widget>
+	<widget field="Shoulder Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="232" y="123"/>
+	</widget>
+	<widget field="Elbow Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="413" y="102"/>
+	</widget>
+	<widget field="Shoulder Target" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="232" y="102"/>
+	</widget>
+	<widget field="Elbow Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="415" y="81"/>
+	</widget>
+	<widget field="Shoulder Power" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="233" y="81"/>
+	</widget>
+	<widget field="Elbow Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="408" y="60"/>
+	</widget>
+	<widget field="Shoulder Position" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="227" y="60"/>
+	</widget>
+	<widget field="Right Sensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="97"/>
+	</widget>
+	<widget field="Left Sensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="77"/>
+	</widget>
+	<widget field="Pose Y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="57"/>
+	</widget>
+	<widget field="Pose X" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="37"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="5" y="4"/>
+	</static-widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

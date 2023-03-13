@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.ManualDriveCommand;
-import frc.robot.commands.Arm.PositionArmCommand;
+import frc.robot.commands.Arm.AutoPositionArmCommand;
+import frc.robot.commands.Arm.ManualArmCommand;
 import frc.robot.commands.Grabber.CloseGrabberCommand;
 import frc.robot.commands.Grabber.OpenGrabberCommand;
 import frc.robot.commands.LED.AllianceLEDCommand;
@@ -84,17 +85,20 @@ public class RobotContainer {
       .onTrue( new CloseGrabberCommand(m_GrabberSubsystem) );     
     
     m_secondController.button(ControllerConstants.kButtonRedUpper1)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kSubstationPosition) );
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kSubstationPosition) );
     m_secondController.button(ControllerConstants.kButtonRedUpper2)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
     m_secondController.button(ControllerConstants.kButtonRedUpper3)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kUpperCubePosition) );
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperCubePosition) );
     m_secondController.button(ControllerConstants.kButtonRedLower1)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition) );
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition) );
     m_secondController.button(ControllerConstants.kButtonRedLower2)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
     m_secondController.button(ControllerConstants.kButtonRedLower3)
-      .onTrue( new PositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
+
+    m_secondController.button(ControllerConstants.kButtonBlack1)
+      .onTrue( new ManualArmCommand(m_armSubsystem, m_secondController.getHID()) );
   }
 
   /**

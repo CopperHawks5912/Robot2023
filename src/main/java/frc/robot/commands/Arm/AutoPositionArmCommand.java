@@ -9,11 +9,11 @@ import frc.robot.utilities.ArmPosition;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class PositionArmCommand extends CommandBase {
+public class AutoPositionArmCommand extends CommandBase {
   private final ArmSubsystem m_armSubsystem;
   private final ArmPosition m_targetArmPosition;
   
-  public PositionArmCommand(ArmSubsystem armSubsystem, ArmPosition targetArmPosition) {
+  public AutoPositionArmCommand(ArmSubsystem armSubsystem, ArmPosition targetArmPosition) {
     m_armSubsystem = armSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(armSubsystem);

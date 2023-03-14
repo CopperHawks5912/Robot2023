@@ -32,18 +32,22 @@ public class ManualArmCommand extends CommandBase {
     double elbowSpeed = 0;
     double shoulderSpeed = 0;
     
-    if( m_controller.getRawButton(ControllerConstants.kJoystickUp) )
-      elbowSpeed = -1;  
-    else if( m_controller.getRawButton(ControllerConstants.kJoystickDown) )
-      elbowSpeed = 1;  
+    // if( m_controller.getRawButton(ControllerConstants.kJoystickUp) )
+    //   elbowSpeed = -1;  
+    // else if( m_controller.getRawButton(ControllerConstants.kJoystickDown) )
+    //   elbowSpeed = 1;  
     
-    if( m_controller.getRawButton(ControllerConstants.kJoystickLeft) )
-      shoulderSpeed = -1;  
-    else if( m_controller.getRawButton(ControllerConstants.kJoystickRight) )
-      shoulderSpeed = 1;  
+    // if( m_controller.getRawButton(ControllerConstants.kJoystickLeft) )
+    //   shoulderSpeed = -1;  
+    // else if( m_controller.getRawButton(ControllerConstants.kJoystickRight) )
+    //   shoulderSpeed = 1;  
 
-    elbowSpeed = elbowSpeed * ArmConstants.kMaxManualSpeed;
-    shoulderSpeed = shoulderSpeed * ArmConstants.kMaxManualSpeed;
+    elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
+    shoulderSpeed = m_controller.getRawAxis(ControllerConstants.kHorizontalAxis);
+
+
+    elbowSpeed = elbowSpeed * ArmConstants.kMaxManualElbowSpeed;
+    shoulderSpeed = shoulderSpeed * ArmConstants.kMaxManualShoulderSpeed;
       
     m_armSubsystem.manualControl(shoulderSpeed, elbowSpeed);
   }

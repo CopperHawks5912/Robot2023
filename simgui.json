@@ -29,7 +29,8 @@
       "/LiveWindow/Ungrouped/Talon FX [6]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [13]": "Motor Controller",
       "/LiveWindow/Ungrouped/Victor SPX [14]": "Motor Controller",
-      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro"
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/ArmSubsystem": "Subsystem"
     }
   }
 }

@@ -29,6 +29,8 @@ public class ArmSubsystem extends SubsystemBase {
   private DigitalInput m_elbowLimitSwitch = new DigitalInput(DIOConstants.kElbowLimitSwitchPort);
   private int kTimeoutMs = 30;
   private ArmPosition m_currentTarget;
+  private double m_shoulderArbitraryFeedForward;
+  private double m_elbowArbitraryFeedForward;
 
   public ArmSubsystem() {    
     /* (sample code comment)
@@ -42,17 +44,18 @@ public class ArmSubsystem extends SubsystemBase {
     m_elbowTalon.configFactoryDefault();
     
     m_shoulderVictor.stopMotor();
-    m_shoulderVictor.setInverted(InvertType.None);
-    m_shoulderVictor.setNeutralMode( NeutralMode.Coast); 
+    m_shoulderVictor.setInverted(InvertType.InvertMotorOutput);
+    m_shoulderVictor.setNeutralMode( NeutralMode.Brake); 
 
     m_shoulderTalon.stopMotor();
     m_shoulderTalon.follow(m_shoulderTalon);
     m_shoulderTalon.setInverted(InvertType.OpposeMaster);
-    m_shoulderTalon.setNeutralMode( NeutralMode.Coast); 
+    m_shoulderTalon.setNeutralMode( NeutralMode.Brake); 
     
+    m_elbowTalon.setSensorPhase(true);   
     m_elbowTalon.stopMotor();
-    m_elbowTalon.setInverted(InvertType.None);
-    m_elbowTalon.setNeutralMode( NeutralMode.Coast);   
+    m_elbowTalon.setInverted(InvertType.InvertMotorOutput);
+    m_elbowTalon.setNeutralMode( NeutralMode.Brake);   
     
     /* (sample code comment)
        set deadband to super small 0.001 (0.1 %).
@@ -74,8 +77,8 @@ public class ArmSubsystem extends SubsystemBase {
 		m_shoulderTalon.configPeakOutputReverse( -0.3, kTimeoutMs);
     m_elbowTalon.configNominalOutputForward(0, kTimeoutMs);
 		m_elbowTalon.configNominalOutputReverse(0, kTimeoutMs);
-		m_elbowTalon.configPeakOutputForward(0.3, kTimeoutMs);
-		m_elbowTalon.configPeakOutputReverse(-0.3, kTimeoutMs);
+		m_elbowTalon.configPeakOutputForward(0.4, kTimeoutMs);
+		m_elbowTalon.configPeakOutputReverse(-0.08, kTimeoutMs);
 
 		/* Set Motion Magic gains in slot0 - see documentation */
 		m_shoulderTalon.selectProfileSlot( ArmConstants.kPIDProfileSlotIndex, ArmConstants.kPIDLoopIndex);
@@ -112,33 +115,41 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber( "Elbow Target", m_currentTarget.GetElbowPosition() );
     SmartDashboard.putBoolean( "Shoulder Switch", m_shoulderLimitSwitch.get() );
     SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );  
+
+    m_shoulderArbitraryFeedForward = calculateShoulderArbitraryFeedForward();
+    m_elbowArbitraryFeedForward = calculateElbowArbitraryFeedForward();
+    SmartDashboard.putNumber( "Shoulder Arb FF", m_shoulderArbitraryFeedForward );
+    SmartDashboard.putNumber( "Elbow Arb FF", m_elbowArbitraryFeedForward );  
+            
   }
 
   public void manualControl( double shoulderSpeed, double elbowSpeed ) {
-    controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kNone );
-    controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.PercentOutput, shoulderSpeed, ArmArbitraryFFMode.kNone );
+    controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kElbow );
+    //controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.PercentOutput, shoulderSpeed, ArmArbitraryFFMode.kNone );
   }
   
   public void controlJoint( WPI_TalonSRX talon, DigitalInput limitSwitch, ControlMode controlMode, double controlValue, ArmArbitraryFFMode arbitraryFFMode ) { 
     if( limitSwitch.get() ) {     
       talon.stopMotor();  
       talon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
-      if( controlValue > 0 )
-        return;//don't do anything - we do dont want to push the arm through the limit switch
+      // if( ( talon.getInverted() && controlValue > 0 ) ||
+      //     ( !talon.getInverted() && controlValue < 0 ) )
+      //   return;//don't do anything - we do dont want to push the arm through the limit switch
     }   
-    double arbitraryFF;
-    switch( arbitraryFFMode ) { 
-      case kNone:
-        talon.set( controlMode, controlValue );
-        break;
-      case kShoulder:
-        arbitraryFF = calculateShoulderArbitraryFeedForward();
-        talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, arbitraryFF );
-        break;   
-      case kElbow:
-        arbitraryFF = calculateElbowArbitraryFeedForward();
-        talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, arbitraryFF );
-        break;
+    if( controlMode == ControlMode.PercentOutput && controlValue == 0 ) 
+      talon.stopMotor();  
+    else {
+      switch( arbitraryFFMode ) { 
+        case kNone:
+          talon.set( controlMode, controlValue );
+          break;
+        case kShoulder:
+          talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, m_shoulderArbitraryFeedForward );
+          break;   
+        case kElbow:
+          talon.set( controlMode, controlValue, DemandType.ArbitraryFeedForward, m_elbowArbitraryFeedForward );
+          break;
+      }
     }
   }
 
@@ -149,14 +160,14 @@ public class ArmSubsystem extends SubsystemBase {
     double targetShoulderPos = armPosition.GetShoulderPosition();
     double targetElbowPos = armPosition.GetElbowPosition();
      
-    controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.MotionMagic, targetShoulderPos, ArmArbitraryFFMode.kShoulder );
+    //controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.MotionMagic, targetShoulderPos, ArmArbitraryFFMode.kShoulder );
     controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.MotionMagic, targetElbowPos, ArmArbitraryFFMode.kElbow );
   }
 
   private double calculateShoulderArbitraryFeedForward( )
   {
     int kShoulderMeasuredPosHorizontal = 5400; // Position measured when arm is horizontal
-    int kElbowMeasuredEffectivePosHorizontal = 2400; //Position measured when arm is horizontal
+    int kElbowMeasuredEffectivePosHorizontal = 2200; //Position measured when arm is horizontal
     double maxGravityFFHorizontalElbow = 0.08;  //power required to hold arm horizontal.
     double maxGravityFFVerticalElbow = 0.08;  //power required to hold arm horizontal.
 
@@ -183,11 +194,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double calculateElbowArbitraryFeedForward( )
   {
-    int kMeasuredEffectivePosHorizontal = 2400; //Position measured when arm is horizontal
+    int kMeasuredEffectivePosHorizontal = 2200; //Position measured when arm is horizontal
     double kTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio / 360; 
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition();
     double currentElbowPos = m_elbowTalon.getSelectedSensorPosition();
-    double maxGravityFF = 0.07;  //NEED TO CALC YET. power required to hold arm horizontal.
+    double maxGravityFF = 0.08;  //NEED TO CALC YET. power required to hold arm horizontal.
 
     double effectiveElbowPos = currentShoulderPos + currentElbowPos;
 

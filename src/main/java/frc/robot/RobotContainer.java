@@ -49,7 +49,7 @@ public class RobotContainer {
  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
-  private final CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
+  public final static CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
       
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -79,7 +79,7 @@ public class RobotContainer {
     m_driverController.rightBumper()
       .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
-    m_secondController.button(ControllerConstants.kButtonBlueLower)
+    m_secondController.button(ControllerConstants.kButtonBlueUpper)
       .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
     m_secondController.button(ControllerConstants.kButtonBlueLower)
       .onTrue( new CloseGrabberCommand(m_GrabberSubsystem) );     

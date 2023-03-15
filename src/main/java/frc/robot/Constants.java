@@ -28,23 +28,22 @@ public final class Constants {
     public static final int kPIDProfileSlotIndex = 0;
     public static final int kPIDLoopIndex = 0;
 
-    public static final double kMaxManualShoulderSpeed = 0.20;
-    public static final double kMaxManualElbowSpeed = 0.18;
+    public static final double kMaxManualElbowSpeed = 0.14;
     
     /**
 	   * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-    public static final Gains kShoulderGains = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
-    public static final Gains kElbowGains = new Gains(4, 0.0, 0.0, 0.2, 0, 1.0);         
+    public static final Gains kShoulderGains = new Gains(4, 0.0, 0.0, 0.32, 0, 1.0);
+    public static final Gains kElbowGains = new Gains(4, 0.0, 0.0, 0.32, 0, 1.0);         
      
     /*positions are an array of angles in encoder positions - 
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
-    public static final ArmPosition kLowerConePosition = new ArmPosition(-500, 2200, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-1000, 3400, "Upper Cone");
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( 0, 0, "Upper Cube");
+    public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6600, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2400, 1500, "Upper Cube");
     public static final ArmPosition kLowerCubePosition = new ArmPosition(0, 0, "Lower Cube");
     public static final ArmPosition kSubstationPosition = new ArmPosition(0, 0, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(0, 0, "Ground");

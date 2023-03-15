@@ -30,7 +30,6 @@ public class ManualArmCommand extends CommandBase {
   @Override
   public void execute() {
     double elbowSpeed = 0;
-    double shoulderSpeed = 0;
     
     // if( m_controller.getRawButton(ControllerConstants.kJoystickUp) )
     //   elbowSpeed = -1;  
@@ -43,13 +42,11 @@ public class ManualArmCommand extends CommandBase {
     //   shoulderSpeed = 1;  
 
     elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
-    shoulderSpeed = m_controller.getRawAxis(ControllerConstants.kHorizontalAxis);
-
+    
 
     elbowSpeed = elbowSpeed * ArmConstants.kMaxManualElbowSpeed;
-    shoulderSpeed = shoulderSpeed * ArmConstants.kMaxManualShoulderSpeed;
       
-    m_armSubsystem.manualControl(shoulderSpeed, elbowSpeed);
+    m_armSubsystem.manualControl(elbowSpeed);
   }
 
   // Called once the command ends or is interrupted.

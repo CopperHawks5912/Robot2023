@@ -79,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
     else
       talon.stopMotor();
     talon.setInverted(invert);
-    talon.setNeutralMode( NeutralMode.Brake);
+    talon.setNeutralMode( NeutralMode.Coast);
   }
   
   public Pose2d getPose() {

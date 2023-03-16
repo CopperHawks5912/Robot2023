@@ -35,9 +35,9 @@ public class ManualArmCommand extends CommandBase {
     
     elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
     if(elbowSpeed > 1)
-      elbowSpeed = elbowSpeed * ArmConstants.kMaxManualUpElbowSpeed;      
+      elbowSpeed = elbowSpeed * ArmConstants.kElbowMaxManualForwardSpeed;      
     if(elbowSpeed < 1)
-      elbowSpeed = elbowSpeed * ArmConstants.kMaxManualDownElbowSpeed;      
+      elbowSpeed = elbowSpeed * ArmConstants.kElbowMaxManualReverseSpeed;      
     m_armSubsystem.manualControl(elbowSpeed);
   }
 

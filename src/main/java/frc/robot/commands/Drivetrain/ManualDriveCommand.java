@@ -50,8 +50,13 @@ public class ManualDriveCommand extends CommandBase {
       rotate = 0;
     }
  
-    forward = forwardAccelerator.adjustSpeed(forward);
-    rotate = rotateAccelerator.adjustSpeed(rotate);
+    double maxSpeed;
+    if( m_xboxController.getLeftTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
+      maxSpeed = DriveConstants.kMaxPrecisionSpeed;
+    else
+      maxSpeed = DriveConstants.kMaxSpeed;
+    forward = forwardAccelerator.adjustSpeed(forward, maxSpeed);
+    rotate = rotateAccelerator.adjustSpeed(rotate, maxSpeed);
     m_driveSubsystem.arcadeDrive(forward, rotate);
   }
 

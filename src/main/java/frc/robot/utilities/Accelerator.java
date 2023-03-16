@@ -27,7 +27,7 @@ public class Accelerator {
         return m_isAtTargetSpeed;
     }
 
-    public double adjustSpeed(double target) {
+    public double adjustSpeed(double target, double maxSpeed) {
         double diff = target - m_currentSpeed;
         if (Math.abs(diff) >= m_accelerationIncrement) {
             if (diff > 0) {
@@ -39,7 +39,7 @@ public class Accelerator {
             m_currentSpeed = target;
         }
         
-        m_currentSpeed = Library.bound(m_currentSpeed, -DriveConstants.kMaxSpeed, DriveConstants.kMaxSpeed);
+        m_currentSpeed = Library.bound(m_currentSpeed, -maxSpeed, maxSpeed);
 
         // MJK 03-19-2022 if the new speed is less than the dead band setting of the
         // motor, then just set currentspeed to 0.

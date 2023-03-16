@@ -14,6 +14,7 @@ public final class Constants {
     public static final int kRotateAxis = Axis.kRightX.value;
     public static final double kJoystickDeadZone = 0.05;
     public static final double kMaxSpeed = 0.75;
+    public static final double kMaxPrecisionSpeed = 0.25;
     public static final double kMaxAccelerationRate = 0.1;  //this is what was in the old code.. might want to test different values
     public static final double kS = 1.5;
     public static final double kV = 2.5;//1.2932;

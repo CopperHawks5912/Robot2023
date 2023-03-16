@@ -21,7 +21,7 @@ public final class Constants {
     public static final double kTrackwidthMeters = 0.67;
     public static final double kEncoderCountsPerRev = 2048;
     public static final double kGearRatio = 24;
-    public static final double kWheelRadius = 4; 
+    public static final double kWheelRadius = 6; 
   }
 
   public static class ArmConstants {

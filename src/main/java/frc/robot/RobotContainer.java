@@ -16,9 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ControllerConstants;
-import frc.robot.commands.ManualDriveCommand;
 import frc.robot.commands.Arm.AutoPositionArmCommand;
 import frc.robot.commands.Arm.ManualArmCommand;
+import frc.robot.commands.Drivetrain.AutoDriveDistanceCommand;
+import frc.robot.commands.Drivetrain.ManualDriveCommand;
 import frc.robot.commands.Grabber.CloseGrabberCommand;
 import frc.robot.commands.Grabber.OpenGrabberCommand;
 import frc.robot.commands.LED.AllianceLEDCommand;
@@ -114,7 +115,12 @@ public class RobotContainer {
     return new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition)
              .andThen(new OpenGrabberCommand(m_GrabberSubsystem))
              .andThen( new WaitCommand(0.75))
-             .andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition));
+             .andThen( new ParallelCommandGroup(
+                            new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition)/*, 
+                            new AutoDriveDistanceCommand(m_driveSubsystem, -1.0, -0.3)*/) )  ;
+
+ 
+
     // PathPlannerTrajectory examplePath = PathPlanner.loadPath("SBend", new PathConstraints(4, 3));
     
     // ParallelCommandGroup group = new ParallelCommandGroup(

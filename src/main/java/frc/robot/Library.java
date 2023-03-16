@@ -37,14 +37,4 @@ public final class Library {
         double distanceFromLimelightToGoalMeters = (goalHeightMeters - LLConstants.kLimeLightHeightMeters)/Math.tan(angleToGoalRadians);
         return (distanceFromLimelightToGoalMeters);
     }
-    public static void initializeTalonFX( WPI_TalonFX talon, boolean invert, WPI_TalonFX masterTalon ) { // Creates and configures a TalonFX
-  
-        talon.configFactoryDefault();
-        if( masterTalon != null ) 
-          talon.follow(masterTalon);
-        else
-          talon.stopMotor();
-        talon.setInverted(invert);
-        talon.setNeutralMode( NeutralMode.Coast);
-      }      
 }

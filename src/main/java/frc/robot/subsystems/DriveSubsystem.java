@@ -185,6 +185,11 @@ public class DriveSubsystem extends SubsystemBase {
     return -m_navX.getRate();
   }
 
+  public double getDistanceTravelledMeters(double startingSensorCount) {
+    double currentSensorCount = getAverageEncoderDistance();
+    double distance = nativeUnitsToDistanceMeters(currentSensorCount- startingSensorCount );
+    return distance;
+  }
 
   private static double nativeUnitsToDistanceMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / DriveConstants.kEncoderCountsPerRev;

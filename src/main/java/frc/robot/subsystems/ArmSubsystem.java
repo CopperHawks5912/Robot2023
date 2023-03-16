@@ -78,12 +78,13 @@ public class ArmSubsystem extends SubsystemBase {
 		/* Set the peak and nominal outputs */
 		m_shoulderTalon.configNominalOutputForward(0, kTimeoutMs);
 		m_shoulderTalon.configNominalOutputReverse(0, kTimeoutMs);
-		m_shoulderTalon.configPeakOutputForward(0.7, kTimeoutMs);
-		m_shoulderTalon.configPeakOutputReverse( -0.7, kTimeoutMs);
-    m_elbowTalon.configNominalOutputForward(0, kTimeoutMs);
+		m_elbowTalon.configNominalOutputForward(0, kTimeoutMs);
 		m_elbowTalon.configNominalOutputReverse(0, kTimeoutMs);
-		m_elbowTalon.configPeakOutputForward(0.4, kTimeoutMs);
-		m_elbowTalon.configPeakOutputReverse(-0.2, kTimeoutMs);
+		
+    m_shoulderTalon.configPeakOutputForward(ArmConstants.kShoulderMaxPeakOutputForward, kTimeoutMs);
+		m_shoulderTalon.configPeakOutputReverse(ArmConstants.kShoulderMaxPeakOutputReverse, kTimeoutMs);
+    m_elbowTalon.configPeakOutputForward(ArmConstants.kElbowMaxPeakOutputForward, kTimeoutMs);
+		m_elbowTalon.configPeakOutputReverse(ArmConstants.kElbowMaxPeakOutputReverse, kTimeoutMs);
 
 		/* Set Motion Magic gains in slot0 - see documentation */
 		m_shoulderTalon.selectProfileSlot( ArmConstants.kPIDProfileSlotIndex, ArmConstants.kPIDLoopIndex);
@@ -111,14 +112,14 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putData(this);
     SmartDashboard.putNumber( "Shoulder Position", m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
     SmartDashboard.putNumber( "Elbow Position", m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
     SmartDashboard.putNumber( "Shoulder Power", m_shoulderTalon.getMotorOutputPercent() );
     SmartDashboard.putNumber( "Victor Power", m_shoulderVictor.getMotorOutputPercent() );
     SmartDashboard.putNumber( "Elbow Power", m_elbowTalon.getMotorOutputPercent() );
-    SmartDashboard.putNumber( "Shoulder Target", m_currentTarget.GetShoulderPosition() );
-    SmartDashboard.putNumber( "Elbow Target", m_currentTarget.GetElbowPosition() );
+    SmartDashboard.putString( "Target", m_currentTarget.getName() );
+    SmartDashboard.putNumber( "Shoulder Target", m_currentTarget.getShoulderPosition() );
+    SmartDashboard.putNumber( "Elbow Target", m_currentTarget.getElbowPosition() );
     SmartDashboard.putBoolean( "Shoulder Switch", m_shoulderLimitSwitch.get() );
     SmartDashboard.putBoolean( "Elbow Switch", m_elbowLimitSwitch.get() );  
     SmartDashboard.putNumber( "Shoulder Start", m_shoulderStartingPosition );
@@ -201,8 +202,8 @@ public class ArmSubsystem extends SubsystemBase {
   {
     m_currentTarget = armPosition;
     
-    double targetShoulderPos = armPosition.GetShoulderPosition();
-    double targetElbowPos = armPosition.GetElbowPosition();
+    double targetShoulderPos = armPosition.getShoulderPosition();
+    double targetElbowPos = armPosition.getElbowPosition();
     double currentElbowPos = m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex);
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex);
 
@@ -223,11 +224,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double calculateShoulderArbitraryFeedForward( )
   {
-    int kShoulderMeasuredPosHorizontal = -5500; // Position measured when arm is horizontal
-    int kElbowMeasuredEffectivePosHorizontal = 2200; //Position measured when arm is horizontal
-    double maxGravityFFHorizontalElbow = 0.12;  //power required to hold arm horizontal.
-    double maxGravityFFVerticalElbow = 0.12;  //power required to hold arm horizontal.
-
     double kElbowTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio / 360;
     double kShoulderTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kShoulderGearRatio / 360; 
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition();
@@ -236,12 +232,12 @@ public class ArmSubsystem extends SubsystemBase {
     double effectiveElbowPos = currentShoulderPos + currentElbowPos;
 
     //calculate the maxGravityFF for the shoulder based on the elbow position
-    double degrees = (effectiveElbowPos - kElbowMeasuredEffectivePosHorizontal) / kElbowTicksPerDegree;
+    double degrees = (effectiveElbowPos - ArmConstants.kElbowHorizontalPosition) / kElbowTicksPerDegree;
     double radians = java.lang.Math.toRadians(degrees);
     double cosineScalar = java.lang.Math.cos(radians);
-    double maxGravityFF = maxGravityFFVerticalElbow + ( cosineScalar * ( maxGravityFFHorizontalElbow - maxGravityFFVerticalElbow ) );
+    double maxGravityFF = ArmConstants.kShoulderMaxGravityFFVerticalElbow + ( cosineScalar * ( ArmConstants.kShoulderMaxGravityFFHorizontalElbow - ArmConstants.kShoulderMaxGravityFFVerticalElbow ) );
     
-    degrees = (currentShoulderPos - kShoulderMeasuredPosHorizontal) / kShoulderTicksPerDegree;
+    degrees = (currentShoulderPos - ArmConstants.kShoulderHorizontalPosition) / kShoulderTicksPerDegree;
     radians = java.lang.Math.toRadians(degrees);
     cosineScalar = java.lang.Math.cos(radians);
 
@@ -251,20 +247,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double calculateElbowArbitraryFeedForward( )
   {
-    int kMeasuredEffectivePosHorizontal = 2200; //Position measured when arm is horizontal
     double kTicksPerDegree = ArmConstants.kEncoderCountsPerRev * ArmConstants.kElbowGearRatio / 360; 
     double currentShoulderPos = m_shoulderTalon.getSelectedSensorPosition();
     double currentElbowPos = m_elbowTalon.getSelectedSensorPosition();
-    double maxGravityFF = 0.08;  //NEED TO CALC YET. power required to hold arm horizontal.
-
+    
     double effectiveElbowPos = currentShoulderPos + currentElbowPos;
 
-    double degrees = (effectiveElbowPos - kMeasuredEffectivePosHorizontal) / kTicksPerDegree;
+    double degrees = (effectiveElbowPos - ArmConstants.kElbowHorizontalPosition) / kTicksPerDegree;
     double radians = java.lang.Math.toRadians(degrees);
     double cosineScalar = java.lang.Math.cos(radians);
 
     
-    double arbitraryFF = maxGravityFF * cosineScalar;
+    double arbitraryFF = ArmConstants.kElbowMaxGravityFF * cosineScalar;
      return arbitraryFF;
   }  
 }

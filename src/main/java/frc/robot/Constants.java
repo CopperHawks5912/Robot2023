@@ -28,8 +28,22 @@ public final class Constants {
     public static final int kPIDProfileSlotIndex = 0;
     public static final int kPIDLoopIndex = 0;
 
-    public static final double kMaxManualElbowSpeed = 0.14;
-    
+    public static final double kElbowMaxManualForwardSpeed = 0.2;
+    public static final double kElbowMaxManualReverseSpeed = 0.1;
+
+    public static final double kShoulderMaxPeakOutputForward = 0.7;
+    public static final double kShoulderMaxPeakOutputReverse = -0.7;
+    public static final double kElbowMaxPeakOutputForward = 0.4;
+    public static final double kElbowMaxPeakOutputReverse = -0.2;
+
+    public static final int kShoulderHorizontalPosition = -5500;
+    public static final int kElbowHorizontalPosition = 2200;
+
+    public static final double kShoulderMaxGravityFFHorizontalElbow = 0.12;  //power required to hold arm horizontal when forearm is horizontal.
+    public static final double kShoulderMaxGravityFFVerticalElbow = 0.12;  //power required to hold arm horizontal  when forearm is vertical.
+    public static final double kElbowMaxGravityFF = 0.08;  //power required to hold forearm horizontal.
+
+     
     /**
 	   * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);

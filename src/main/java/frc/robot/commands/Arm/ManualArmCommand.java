@@ -6,6 +6,7 @@ package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Constants.*;
@@ -29,23 +30,14 @@ public class ManualArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putData(this);
     double elbowSpeed = 0;
     
-    // if( m_controller.getRawButton(ControllerConstants.kJoystickUp) )
-    //   elbowSpeed = -1;  
-    // else if( m_controller.getRawButton(ControllerConstants.kJoystickDown) )
-    //   elbowSpeed = 1;  
-    
-    // if( m_controller.getRawButton(ControllerConstants.kJoystickLeft) )
-    //   shoulderSpeed = -1;  
-    // else if( m_controller.getRawButton(ControllerConstants.kJoystickRight) )
-    //   shoulderSpeed = 1;  
-
     elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
-    
-
-    elbowSpeed = elbowSpeed * ArmConstants.kMaxManualElbowSpeed;
-      
+    if(elbowSpeed > 1)
+      elbowSpeed = elbowSpeed * ArmConstants.kMaxManualUpElbowSpeed;      
+    if(elbowSpeed < 1)
+      elbowSpeed = elbowSpeed * ArmConstants.kMaxManualDownElbowSpeed;      
     m_armSubsystem.manualControl(elbowSpeed);
   }
 

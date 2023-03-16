@@ -6,6 +6,7 @@ package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.utilities.ArmPosition;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -31,7 +32,7 @@ public class AutoPositionArmCommand extends CommandBase {
   @Override
   public void execute() {  
     m_armSubsystem.moveArmToPosition(m_targetArmPosition);    
-   
+    SmartDashboard.putData(this);
   }
   // Called once the command ends or is interrupted.
   @Override

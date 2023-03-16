@@ -11,15 +11,15 @@ public class ArmPosition {
         kName = name;
     }
 
-    public double GetShoulderPosition() {
+    public double getShoulderPosition() {
         return kShoulderPosition;
     }
 
-    public double GetElbowPosition() {
+    public double getElbowPosition() {
         return kElbowPosition;
     }
 
-    public String GetName() {
+    public String getName() {
         return kName;
     }
 }

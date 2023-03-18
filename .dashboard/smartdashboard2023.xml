@@ -1,5 +1,8 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Target" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="275" y="36"/>
+	</widget>
 	<widget field="Elbow Start" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="418" y="105"/>
 	</widget>
@@ -16,57 +19,11 @@
 		<location x="233" y="169"/>
 		<height>19</height>
 	</widget>
-	<widget field="Axis 1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="525"/>
-	</widget>
-	<widget field="Axis 0" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="505"/>
-	</widget>
-	<widget field="Axis Count" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="485"/>
-	</widget>
-	<widget field="Button 10" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="365"/>
-	</widget>
-	<widget field="Button 9" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="345"/>
-	</widget>
-	<widget field="Button 8" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="325"/>
-	</widget>
-	<widget field="Button 7" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="305"/>
-	</widget>
-	<widget field="Button 6" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="285"/>
-	</widget>
-	<widget field="Button 5" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="265"/>
-	</widget>
-	<widget field="Button 4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="245"/>
-	</widget>
-	<widget field="Button 3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="225"/>
-	</widget>
-	<widget field="Button 2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="205"/>
-	</widget>
-	<widget field="Button 1" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="185"/>
-	</widget>
-	<widget field="Button Count" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="165"/>
-	</widget>
 	<widget field="Rotate Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="19" y="145"/>
 	</widget>
 	<widget field="Forward Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="4" y="120"/>
-	</widget>
-	<widget field="ArmSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
-		<location x="236" y="37"/>
-		<width>306</width>
 	</widget>
 	<widget field="Elbow Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="413" y="123"/>
@@ -110,6 +67,9 @@
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
 		<location x="5" y="4"/>
 	</static-widget>
+	<widget field="ArmSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="20" y="24"/>
+	</widget>
 </dashboard>
 <live-window>
 </live-window>

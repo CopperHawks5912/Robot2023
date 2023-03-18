@@ -30,7 +30,6 @@ public class ManualArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putData(this);
     double elbowSpeed = 0;
     
     elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);

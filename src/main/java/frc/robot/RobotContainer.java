@@ -50,7 +50,7 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
  
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
+  public final static CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
   public final static CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
       
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -77,10 +77,10 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.x()
       .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
-    m_driverController.leftBumper()
-      .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
-    m_driverController.rightBumper()
-      .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+    //m_driverController.leftBumper()
+    //  .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
+    //m_driverController.rightBumper()
+    //  .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
     m_secondController.button(ControllerConstants.kButtonBlueUpper)
       .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
@@ -116,8 +116,8 @@ public class RobotContainer {
              .andThen(new OpenGrabberCommand(m_GrabberSubsystem))
              .andThen( new WaitCommand(0.75))
              .andThen( new ParallelCommandGroup(
-                            new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition)/*, 
-                            new AutoDriveDistanceCommand(m_driveSubsystem, -1.0, -0.3)*/) )  ;
+                            new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+                            new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3) ) );
 
  
 

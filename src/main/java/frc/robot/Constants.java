@@ -13,8 +13,8 @@ public final class Constants {
     public static final int kForwardAxis = Axis.kLeftY.value;
     public static final int kRotateAxis = Axis.kRightX.value;
     public static final double kJoystickDeadZone = 0.05;
-    public static final double kMaxSpeed = 0.75;
-    public static final double kMaxPrecisionSpeed = 0.25;
+    public static final double kMaxSpeed = 0.7;
+    public static final double kMaxPrecisionSpeed = 0.37;
     public static final double kMaxAccelerationRate = 0.1;  //this is what was in the old code.. might want to test different values
     public static final double kS = 1.5;
     public static final double kV = 2.5;//1.2932;
@@ -29,8 +29,8 @@ public final class Constants {
     public static final int kPIDProfileSlotIndex = 0;
     public static final int kPIDLoopIndex = 0;
 
-    public static final double kElbowMaxManualForwardSpeed = 0.2;
-    public static final double kElbowMaxManualReverseSpeed = 0.1;
+    public static final double kElbowMaxManualForwardSpeed = 0.05;
+    public static final double kElbowMaxManualReverseSpeed = 0.12;
 
     public static final double kShoulderMaxPeakOutputForward = 0.7;
     public static final double kShoulderMaxPeakOutputReverse = -0.7;
@@ -58,11 +58,14 @@ public final class Constants {
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
     public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6600, "Upper Cone");
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2400, 1500, "Upper Cube");
-    public static final ArmPosition kLowerCubePosition = new ArmPosition(0, 0, "Lower Cube");
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 0, "Substation");
+    
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2900, 5800, "Upper Cube");
+    public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3100, "Lower Cube");
+    
+    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2400, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(0, 0, "Ground");
 
+    
     public static final int kEncoderCountsPerRev = 4096;
     public static final double kShoulderGearRatio = 4.0;  //4:1 chain sprockets (100:1 gearbox is in front of the encoder)
     public static final double kElbowGearRatio = 4.0;  //4:1 chain sprockets (100:1 gearbox is in front of the encoder)

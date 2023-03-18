@@ -112,6 +112,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putData(this);
     SmartDashboard.putNumber( "Shoulder Position", m_shoulderTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
     SmartDashboard.putNumber( "Elbow Position", m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex) );
     SmartDashboard.putNumber( "Shoulder Power", m_shoulderTalon.getMotorOutputPercent() );
@@ -132,14 +133,14 @@ public class ArmSubsystem extends SubsystemBase {
             
   }
 
-  public void manualControl(  double elbowSpeed ) {
+  public void manualControl( double elbowSpeed ) {
     if( elbowSpeed == 0)
     {
       double currentElbowPosition = m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex); 
       controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.MotionMagic, currentElbowPosition, ArmArbitraryFFMode.kElbow );
     }  
     else
-      controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kElbow );
+      controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kNone );
   }
   
   public void controlJoint( WPI_TalonSRX talon, DigitalInput limitSwitch, ControlMode controlMode, double controlValue, ArmArbitraryFFMode arbitraryFFMode ) { 

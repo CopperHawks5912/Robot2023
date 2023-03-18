@@ -32,7 +32,6 @@ public class AutoPositionArmCommand extends CommandBase {
   @Override
   public void execute() {  
     m_armSubsystem.moveArmToPosition(m_targetArmPosition);    
-    SmartDashboard.putData(this);
   }
   // Called once the command ends or is interrupted.
   @Override
@@ -41,7 +40,7 @@ public class AutoPositionArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
+    //return false;
     return m_armSubsystem.isGoodEnough();
   }
 }

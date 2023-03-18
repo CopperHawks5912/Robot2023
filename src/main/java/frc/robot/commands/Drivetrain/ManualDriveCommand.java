@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Constants.*;
 
+import javax.lang.model.util.ElementScanner14;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 /** Manual Drive Command */
 public class ManualDriveCommand extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
@@ -50,16 +54,31 @@ public class ManualDriveCommand extends CommandBase {
       rotate = 0;
     }
  
-    double maxSpeed;
-    if( m_xboxController.getLeftTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
-      maxSpeed = DriveConstants.kMaxPrecisionSpeed;
+    double maxForwardSpeed;
+    double maxRotateSpeed;
+    if( m_xboxController.getRightTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
+    {
+      m_driveSubsystem.setNeutralMode( NeutralMode.Brake);    
+    } 
+    else 
+    {
+      m_driveSubsystem.setNeutralMode( NeutralMode.Coast);      
+    }
+  if( m_xboxController.getLeftTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
+    {
+      maxForwardSpeed = DriveConstants.kMaxPrecisionForwardSpeed;
+      maxRotateSpeed = DriveConstants.kMaxPrecisionRotateSpeed;
+    }  
     else
-      maxSpeed = DriveConstants.kMaxSpeed;
-    forward = forwardAccelerator.adjustSpeed(forward, maxSpeed);
-    rotate = rotateAccelerator.adjustSpeed(rotate, maxSpeed);
-    m_driveSubsystem.arcadeDrive(forward, rotate);
+    {
+      maxForwardSpeed = DriveConstants.kMaxForwardSpeed;
+      maxRotateSpeed = DriveConstants.kMaxRotateSpeed;
+    } 
+    forward = forwardAccelerator.adjustSpeed(forward, maxForwardSpeed);
+    rotate = rotateAccelerator.adjustSpeed(rotate, maxRotateSpeed);
+    m_driveSubsystem.arcadeDrive(forward, rotate);    
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

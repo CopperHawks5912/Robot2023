@@ -13,8 +13,10 @@ public final class Constants {
     public static final int kForwardAxis = Axis.kLeftY.value;
     public static final int kRotateAxis = Axis.kRightX.value;
     public static final double kJoystickDeadZone = 0.05;
-    public static final double kMaxSpeed = 0.7;
-    public static final double kMaxPrecisionSpeed = 0.37;
+    public static final double kMaxForwardSpeed = 1.0;
+    public static final double kMaxRotateSpeed = 0.6;
+    public static final double kMaxPrecisionForwardSpeed = 0.47;
+    public static final double kMaxPrecisionRotateSpeed = 0.30;
     public static final double kMaxAccelerationRate = 0.1;  //this is what was in the old code.. might want to test different values
     public static final double kS = 1.5;
     public static final double kV = 2.5;//1.2932;
@@ -57,13 +59,13 @@ public final class Constants {
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6600, "Upper Cone");
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6700, "Upper Cone");
     
     public static final ArmPosition kUpperCubePosition = new ArmPosition( -2900, 5800, "Upper Cube");
     public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3100, "Lower Cube");
     
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2400, "Substation");
-    public static final ArmPosition kGroundPosition = new ArmPosition(0, 0, "Ground");
+    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2500, "Substation");
+    public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
     
     public static final int kEncoderCountsPerRev = 4096;
@@ -144,7 +146,7 @@ public final class Constants {
   }
 
   public static class LEDConstants{
-    public static final int kLEDStringLength = 42;
+    public static final int kLEDStringLength = 140;
     public static final int kLEDModeOff = -1;
     public static final int kLEDModeRainbow = 0;
     public static final int kLEDModeCone = 1;

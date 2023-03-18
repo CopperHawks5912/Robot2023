@@ -5,6 +5,7 @@
 package frc.robot.commands.Drivetrain;
 
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** Manual Drive Command */
@@ -30,13 +31,18 @@ public class AutoDriveDistanceCommand extends CommandBase {
   @Override
   public void initialize() {
     m_startingSensorCount = m_driveSubsystem.getAverageEncoderDistance();
+    SmartDashboard.putNumber( "Init AutoDrive Sensor", m_startingSensorCount );
+    SmartDashboard.putNumber( "Drive DIstance", m_driveDistanceMeters );
+    SmartDashboard.putNumber( "Drive Speed", m_driveSpeed );
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double m_DistanceTravelledMeters = m_driveSubsystem.getDistanceTravelledMeters( m_startingSensorCount );
-    if ( m_DistanceTravelledMeters < m_driveDistanceMeters)
+    SmartDashboard.putNumber( "Current AutoDrive Distance", m_DistanceTravelledMeters );
+    if ( m_DistanceTravelledMeters > m_driveDistanceMeters)
     {
       m_driveSubsystem.arcadeDrive(m_driveSpeed, 0);
     }

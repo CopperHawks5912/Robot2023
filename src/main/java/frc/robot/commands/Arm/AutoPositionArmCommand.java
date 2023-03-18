@@ -41,6 +41,8 @@ public class AutoPositionArmCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     //return false;
-    return m_armSubsystem.isGoodEnough();
+    boolean isGoodEnough =  m_armSubsystem.isGoodEnough();
+    SmartDashboard.putBoolean( "Good Enough!", isGoodEnough );
+    return isGoodEnough;
   }
 }

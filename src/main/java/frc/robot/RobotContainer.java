@@ -8,6 +8,9 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -26,12 +29,14 @@ import frc.robot.commands.LED.AllianceLEDCommand;
 import frc.robot.commands.LED.ConeLEDCommand;
 import frc.robot.commands.LED.CubeLEDCommand;
 import frc.robot.commands.LED.RainbowLEDCommand;
+import frc.robot.commands.ShiftGear.LowGearCommand;
 import frc.robot.commands.ShiftGear.SwitchGearCommand;
 import frc.robot.subsystems.AddressableLEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.utilities.LimelightHelpers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,7 +66,13 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to the ManualDriveCommand
     m_driveSubsystem.setDefaultCommand( new ManualDriveCommand(m_driveSubsystem, m_driverController) );
-    m_addressableLEDSubsystem.setDefaultCommand( new AllianceLEDCommand(m_addressableLEDSubsystem).ignoringDisable( true) );
+    m_GearShiftSubsystem.setDefaultCommand( new LowGearCommand(m_GearShiftSubsystem));
+    m_addressableLEDSubsystem.setDefaultCommand( new RainbowLEDCommand(m_addressableLEDSubsystem).ignoringDisable( true) );
+    //m_addressableLEDSubsystem.setDefaultCommand( new AllianceLEDCommand(m_addressableLEDSubsystem).ignoringDisable( true) );
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    table.getEntry("ledMode").setNumber(1);
+    table.getEntry("camMode").setNumber(1);
+    table.getEntry("pipeline").setNumber(9);
     //m_armSubsystem.setDefaultCommand( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition ) );       
   }
 
@@ -75,12 +86,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController.x()
-      .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
-    //m_driverController.leftBumper()
-    //  .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
-    //m_driverController.rightBumper()
-    //  .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+    //m_driverController.x()
+    //  .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
+    //m_driverController.y()
+    //  .onTrue( new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3) );
+    m_driverController.leftBumper()
+      .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
+    m_driverController.rightBumper()
+      .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
     m_secondController.button(ControllerConstants.kButtonBlueUpper)
       .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
@@ -99,6 +112,8 @@ public class RobotContainer {
       .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
     m_secondController.button(ControllerConstants.kButtonRedLower3)
       .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
+    m_secondController.button(ControllerConstants.kButtonBlack2 )
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kGroundPosition) ); 
 
     m_secondController.button(ControllerConstants.kButtonBlack1)
       .onTrue( new ManualArmCommand(m_armSubsystem, m_secondController.getHID()) );
@@ -112,13 +127,15 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
 
-    return new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition)
-             .andThen(new OpenGrabberCommand(m_GrabberSubsystem))
-             .andThen( new WaitCommand(0.75))
-             .andThen( new ParallelCommandGroup(
-                            new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
-                            new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3) ) );
+     return new LowGearCommand(m_GearShiftSubsystem)
+              .andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition)
+              .andThen(new OpenGrabberCommand(m_GrabberSubsystem))
+              .andThen( new WaitCommand(0.75))
+              .andThen( new ParallelCommandGroup(
+                             new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+                             new AutoDriveDistanceCommand(m_driveSubsystem, -1.0, -0.4) ) ) );
 
+    //return new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3);
  
 
     // PathPlannerTrajectory examplePath = PathPlanner.loadPath("SBend", new PathConstraints(4, 3));

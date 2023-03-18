@@ -197,4 +197,8 @@ public class DriveSubsystem extends SubsystemBase {
     double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(DriveConstants.kWheelRadius));
     return positionMeters;
   }
+  public void setNeutralMode( NeutralMode mode )
+  {
+  //  m_left1.setNeutralMode( NeutralMode.Coast);
+  }
 }

@@ -1,5 +1,29 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="305"/>
+	</widget>
+	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="285"/>
+	</widget>
+	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="265"/>
+	</widget>
+	<widget field="Good Enough!" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="245"/>
+	</widget>
+	<widget field="Drive Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="225"/>
+	</widget>
+	<widget field="Drive DIstance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="205"/>
+	</widget>
+	<widget field="Current AutoDrive Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="185"/>
+	</widget>
+	<widget field="Init AutoDrive Sensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="165"/>
+	</widget>
 	<widget field="Target" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="275" y="36"/>
 	</widget>

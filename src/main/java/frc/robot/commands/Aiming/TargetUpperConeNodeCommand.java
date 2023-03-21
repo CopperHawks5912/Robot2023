@@ -42,8 +42,8 @@ public class TargetUpperConeNodeCommand extends CommandBase {
   public void execute() {    
     m_distanceMeters = Library.calcDistance(FieldConstants.kUpperConeHeightMeters);
     m_angleX = LimelightHelpers.getTX("limeLightName");
-    SmartDashboard.putNumber( "targetDistance", m_distanceMeters);
-    SmartDashboard.putNumber("targetX", m_angleX );
+    //SmartDashboard.putNumber( "targetDistance", m_distanceMeters);
+    //SmartDashboard.putNumber("targetX", m_angleX );
     
     //m_driveSubsystem.arcadeDrive(forward, rotate);
   }

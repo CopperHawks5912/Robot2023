@@ -31,6 +31,7 @@ import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 import static frc.robot.Constants.*;
 
@@ -45,10 +46,11 @@ public class DriveSubsystem extends SubsystemBase {
   private AHRS m_navX = new AHRS(SPI.Port.kMXP);  
   private final DifferentialDriveOdometry m_odometry;
   private DifferentialDriveKinematics m_Kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
-
+  private NeutralMode m_neutralMode;
 
   public DriveSubsystem() {    
     
+    m_neutralMode = NeutralMode.Coast;
     initializeTalonFX(m_left1, true, null);
     initializeTalonFX(m_left2, false, m_left1);
     initializeTalonFX(m_left3, true, m_left1);
@@ -63,11 +65,11 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber( "Pose X", m_odometry.getPoseMeters().getX() );
-    SmartDashboard.putNumber( "Pose Y", m_odometry.getPoseMeters().getY() );
-    SmartDashboard.putNumber( "Left Sensor", m_left1.getSelectedSensorPosition() );
-    SmartDashboard.putNumber( "Right Sensor", m_right1.getSelectedSensorPosition() );
-    m_odometry.update(
+    //SmartDashboard.putNumber( "Pose X", m_odometry.getPoseMeters().getX() );
+    //SmartDashboard.putNumber( "Pose Y", m_odometry.getPoseMeters().getY() );
+    //SmartDashboard.putNumber( "Left Sensor", m_left1.getSelectedSensorPosition() );
+    //SmartDashboard.putNumber( "Right Sensor", m_right1.getSelectedSensorPosition() );
+     m_odometry.update(
         m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ), nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ) );
   }
 
@@ -92,19 +94,19 @@ public class DriveSubsystem extends SubsystemBase {
 
    public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    SmartDashboard.putNumber( "Init Left Sensor 1", m_left1.getSelectedSensorPosition() );
-    SmartDashboard.putNumber( "Init Right Sensor 1", m_right1.getSelectedSensorPosition() );
+    //SmartDashboard.putNumber( "Init Left Sensor 1", m_left1.getSelectedSensorPosition() );
+    //SmartDashboard.putNumber( "Init Right Sensor 1", m_right1.getSelectedSensorPosition() );
     m_odometry.resetPosition(
         m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ),nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ), pose);
-        SmartDashboard.putNumber( "Init Pose X", m_odometry.getPoseMeters().getX() );
-        SmartDashboard.putNumber( "Init Pose Y", m_odometry.getPoseMeters().getY() );
-        SmartDashboard.putNumber( "Init Left Sensor 2", m_left1.getSelectedSensorPosition() );
-        SmartDashboard.putNumber( "Init Right Sensor 2", m_right1.getSelectedSensorPosition() );
-   }
+    //SmartDashboard.putNumber( "Init Pose X", m_odometry.getPoseMeters().getX() );
+    //SmartDashboard.putNumber( "Init Pose Y", m_odometry.getPoseMeters().getY() );
+    //SmartDashboard.putNumber( "Init Left Sensor 2", m_left1.getSelectedSensorPosition() );
+    //SmartDashboard.putNumber( "Init Right Sensor 2", m_right1.getSelectedSensorPosition() );
+  }
        
   public void arcadeDrive(double fwd, double rot) {
     SmartDashboard.putNumber( "Forward Speed", fwd);
-    SmartDashboard.putNumber( "Rotate Speed", rot);
+    //SmartDashboard.putNumber( "Rotate Speed", rot);
     m_drive.arcadeDrive(fwd, rot);
   }
 
@@ -150,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getAverageEncoderDistance() {
-    return (m_left1.getSelectedSensorPosition() + m_right1.getSelectedSensorPosition()) / 2.0;
+    return (m_left1.getSelectedSensorPosition());// + m_right1.getSelectedSensorPosition()) / 2.0;
   }
 
   /**
@@ -199,6 +201,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
   public void setNeutralMode( NeutralMode mode )
   {
-  //  m_left1.setNeutralMode( NeutralMode.Coast);
+    if( m_neutralMode != mode )
+    {
+      m_left1.setNeutralMode( mode);
+      m_left2.setNeutralMode( mode);
+      m_left3.setNeutralMode( mode);
+      m_right1.setNeutralMode( mode);
+      m_right2.setNeutralMode( mode);
+      m_right3.setNeutralMode( mode);
+    }
+    m_neutralMode = mode;
   }
 }

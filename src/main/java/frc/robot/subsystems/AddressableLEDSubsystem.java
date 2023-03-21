@@ -44,7 +44,12 @@ public class AddressableLEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
    }
 
-  public void setLEDMode(int mode)
+   public int getLEDMode()
+   {
+     return m_ledMode;  
+   }
+   
+   public void setLEDMode(int mode)
   {
     m_ledMode = mode;  
   }

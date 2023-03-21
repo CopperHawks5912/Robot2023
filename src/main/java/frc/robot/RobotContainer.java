@@ -11,6 +11,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.Arm.AutoPositionArmCommand;
 import frc.robot.commands.Arm.ManualArmCommand;
@@ -36,6 +39,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.utilities.ArmPosition;
 import frc.robot.utilities.LimelightHelpers;
 
 /**
@@ -57,21 +61,25 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final static CommandXboxController m_driverController = new CommandXboxController(ControllerConstants.kDriverControllerPort);
   public final static CommandGenericHID m_secondController = new CommandGenericHID(ControllerConstants.kSecondControllerPort);
-      
+  
+  private final SendableChooser<String> m_autoNodeChooser = new SendableChooser<>();
+  private final SendableChooser<String> m_autoDriveChooser = new SendableChooser<>();
+  private String m_selectedNodeAuto;
+  private String m_selectedDriveAuto;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
+    configureAutos();
     // Configure default commands
     // Set the default drive command to the ManualDriveCommand
     m_driveSubsystem.setDefaultCommand( new ManualDriveCommand(m_driveSubsystem, m_driverController) );
     m_GearShiftSubsystem.setDefaultCommand( new LowGearCommand(m_GearShiftSubsystem));
-    m_addressableLEDSubsystem.setDefaultCommand( new RainbowLEDCommand(m_addressableLEDSubsystem).ignoringDisable( true) );
-    //m_addressableLEDSubsystem.setDefaultCommand( new AllianceLEDCommand(m_addressableLEDSubsystem).ignoringDisable( true) );
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     table.getEntry("ledMode").setNumber(1);
     table.getEntry("camMode").setNumber(1);
+    table.getEntry("pipeline").setNumber(9);
     table.getEntry("pipeline").setNumber(9);
     //m_armSubsystem.setDefaultCommand( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition ) );       
   }
@@ -85,15 +93,28 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+  private void configureAutos()
+  {
+    m_autoNodeChooser.setDefaultOption( AutoConstants.kLowerCone, AutoConstants.kLowerCone);
+    m_autoNodeChooser.addOption( AutoConstants.kUpperCone, AutoConstants.kUpperCone);
+    m_autoNodeChooser.addOption( AutoConstants.kLowerCube, AutoConstants.kLowerCube);
+    m_autoNodeChooser.addOption( AutoConstants.kUpperCube, AutoConstants.kUpperCube);
+    m_autoDriveChooser.setDefaultOption( AutoConstants.kNoReverse, AutoConstants.kNoReverse);
+    m_autoDriveChooser.addOption( AutoConstants.kShortReverse, AutoConstants.kShortReverse);
+    m_autoDriveChooser.addOption( AutoConstants.kLongReverse, AutoConstants.kLongReverse);
+    SmartDashboard.putData("Auto-Node:", m_autoNodeChooser );
+    SmartDashboard.putData("Auto-Drive:", m_autoDriveChooser );
+
+  }
   private void configureBindings() {
     //m_driverController.x()
     //  .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
     //m_driverController.y()
     //  .onTrue( new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3) );
     m_driverController.leftBumper()
-      .whileTrue( new ConeLEDCommand(m_addressableLEDSubsystem));
+      .onTrue( new ConeLEDCommand(m_addressableLEDSubsystem) );
     m_driverController.rightBumper()
-      .whileTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+      .onTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
     m_secondController.button(ControllerConstants.kButtonBlueUpper)
       .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
@@ -126,17 +147,93 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
+    Command auto;
 
-     return new LowGearCommand(m_GearShiftSubsystem)
-              .andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition)
-              .andThen(new OpenGrabberCommand(m_GrabberSubsystem))
-              .andThen( new WaitCommand(0.75))
-              .andThen( new ParallelCommandGroup(
-                             new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
-                             new AutoDriveDistanceCommand(m_driveSubsystem, -1.0, -0.4) ) ) );
+    m_selectedNodeAuto = m_autoNodeChooser.getSelected();
+    m_selectedDriveAuto = m_autoDriveChooser.getSelected();
 
-    //return new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3);
- 
+    ArmPosition position = ArmConstants.kAutoLowerConePosition;
+    switch( m_selectedNodeAuto )
+    {
+      case AutoConstants.kLowerCone:
+        position = ArmConstants.kAutoLowerConePosition;
+        break;
+      case AutoConstants.kUpperCone:
+        position = ArmConstants.kAutoUpperConePosition;
+        break;
+      case AutoConstants.kLowerCube:
+        position = ArmConstants.kAutoLowerCubePosition;
+        break;
+      case AutoConstants.kUpperCube:
+        position = ArmConstants.kAutoUpperCubePosition;
+        break;
+    }
+    double autoDriveDistance = 0.0;
+    double autoDriveSpeed = 0.5;
+
+    switch( m_selectedDriveAuto )
+    {
+      case AutoConstants.kNoReverse:
+        autoDriveDistance = 0.0;
+        autoDriveSpeed = 0.0;
+        break;
+      case AutoConstants.kShortReverse:
+        autoDriveDistance = 1.0;
+        break;
+      case AutoConstants.kLongReverse:
+         autoDriveDistance = 2.0;        
+        break; 
+    }   
+    auto = new LowGearCommand(m_GearShiftSubsystem) 
+           .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
+           .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
+           .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
+           .andThen( new WaitCommand(0.75))
+           .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
+           .andThen( new WaitCommand(0.75))
+           .andThen( new ParallelCommandGroup(
+              new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+              new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, autoDriveSpeed) ) );
+    
+    // auto = new LowGearCommand(m_GearShiftSubsystem);
+
+    // switch( m_selectedNodeAuto )
+    // {
+    //   case AutoConstants.kLowerCone:
+    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
+    //     break;
+    //   case AutoConstants.kUpperCone:
+    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
+    //     break;
+    //   case AutoConstants.kLowerCube:
+    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) );
+    //     break;
+    //   case AutoConstants.kUpperCube:
+    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
+    //     break;
+    // }
+    // auto = auto.andThen(new OpenGrabberCommand(m_GrabberSubsystem))
+    //             .andThen( new WaitCommand(0.75));
+    
+    // double autoDriveDistance = 0.0;
+
+    // switch( m_selectedDriveAuto )
+    // {
+    //   case AutoConstants.kNoReverse:
+    //     autoDriveDistance = 0.0;
+    //     break;
+    //   case AutoConstants.kShortReverse:
+    //     autoDriveDistance = 1.0;
+    //     break;
+    //   case AutoConstants.kLongReverse:
+    //      autoDriveDistance = 2.0;        
+    //     break; 
+    // }   
+    // auto = auto.andThen( new ParallelCommandGroup(
+    //                       new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+    //                       new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, -0.4) ) );
+
+    return auto;
 
     // PathPlannerTrajectory examplePath = PathPlanner.loadPath("SBend", new PathConstraints(4, 3));
     

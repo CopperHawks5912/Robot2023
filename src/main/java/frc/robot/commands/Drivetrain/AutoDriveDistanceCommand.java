@@ -32,9 +32,8 @@ public class AutoDriveDistanceCommand extends CommandBase {
   public void initialize() {
     m_startingSensorCount = m_driveSubsystem.getAverageEncoderDistance();
     SmartDashboard.putNumber( "Init AutoDrive Sensor", m_startingSensorCount );
-    SmartDashboard.putNumber( "Drive DIstance", m_driveDistanceMeters );
-    SmartDashboard.putNumber( "Drive Speed", m_driveSpeed );
-   
+    SmartDashboard.putNumber( "Drive Distance", m_driveDistanceMeters );
+    SmartDashboard.putNumber( "Drive Speed", m_driveSpeed );   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +41,7 @@ public class AutoDriveDistanceCommand extends CommandBase {
   public void execute() {
     double m_DistanceTravelledMeters = m_driveSubsystem.getDistanceTravelledMeters( m_startingSensorCount );
     SmartDashboard.putNumber( "Current AutoDrive Distance", m_DistanceTravelledMeters );
-    if ( m_DistanceTravelledMeters > m_driveDistanceMeters)
+    if ( m_DistanceTravelledMeters < m_driveDistanceMeters)
     {
       m_driveSubsystem.arcadeDrive(m_driveSpeed, 0);
     }

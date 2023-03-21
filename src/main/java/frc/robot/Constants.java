@@ -23,8 +23,8 @@ public final class Constants {
     public static final double kA = 0;// 1.6557;  
     public static final double kTrackwidthMeters = 0.67;
     public static final double kEncoderCountsPerRev = 2048;
-    public static final double kGearRatio = 24;
-    public static final double kWheelRadius = 6; 
+    public static final double kGearRatio = 12;
+    public static final double kWheelRadius = 3; 
   }
 
   public static class ArmConstants {
@@ -58,15 +58,19 @@ public final class Constants {
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
-    public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6700, "Upper Cone");
-    
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2900, 5800, "Upper Cube");
-    public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3100, "Lower Cube");
-    
     public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2500, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
+    public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6700, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2900, 5800, "Upper Cube");
+    public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3100, "Lower Cube");
+
+    public static final ArmPosition kAutoLowerConePosition = new ArmPosition(-1300, 3750, "Lower Cone");
+    public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2900, 6700, "Upper Cone");
+    public static final ArmPosition kAutoUpperCubePosition = new ArmPosition( -2750, 5800, "Upper Cube");
+    public static final ArmPosition kAutoLowerCubePosition = new ArmPosition( -1450, 3100, "Lower Cube");
+    
     
     public static final int kEncoderCountsPerRev = 4096;
     public static final double kShoulderGearRatio = 4.0;  //4:1 chain sprockets (100:1 gearbox is in front of the encoder)
@@ -92,6 +96,16 @@ public final class Constants {
     public static final int kVerticalAxis    = 1;
   }
   
+  public static class AutoConstants
+  {
+    public static final String kUpperCone = "UpperCone";
+    public static final String kLowerCone = "LowerCone";
+    public static final String kUpperCube = "UpperCube";
+    public static final String kLowerCube = "LowerCube";
+    public static final String kLongReverse = "LongReverse";
+    public static final String kShortReverse = "ShortReverse";
+    public static final String kNoReverse = "NoReverse";
+  }
   public static class DIOConstants
   {
     public static final int kShoulderLimitSwitchPort = 9;

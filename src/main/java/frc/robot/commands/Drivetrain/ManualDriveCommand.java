@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Constants.*;
 
-import javax.lang.model.util.ElementScanner14;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /** Manual Drive Command */

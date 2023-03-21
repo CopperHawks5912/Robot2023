@@ -8,15 +8,15 @@ import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utilities.LimelightHelpers;
 import frc.robot.Library;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
 /** Manual Drive Command */
 public class TargetLowerConeNodeCommand extends CommandBase {
-  private final DriveSubsystem m_driveSubsystem;
+//  private final DriveSubsystem m_driveSubsystem;
   private double m_distanceMeters;
-  private double m_angleX;
+//  private double m_angleX;
   //private Accelerator forwardAccelerator = new Accelerator(DriveConstants.kMaxAccelerationRate);
   //private Accelerator rotateAccelerator = new Accelerator(DriveConstants.kMaxAccelerationRate);
   
@@ -26,7 +26,7 @@ public class TargetLowerConeNodeCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public TargetLowerConeNodeCommand(DriveSubsystem driveSubsystem) {
-    m_driveSubsystem = driveSubsystem;
+//    m_driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSubsystem);
   }
@@ -41,7 +41,7 @@ public class TargetLowerConeNodeCommand extends CommandBase {
   @Override
   public void execute() {
     m_distanceMeters = Library.calcDistance(FieldConstants.kLowerConeHeightMeters);
-    m_angleX = LimelightHelpers.getTX("limeLightName");
+  //  m_angleX = LimelightHelpers.getTX("limeLightName");
     //SmartDashboard.putNumber( "targetDistance", m_distanceMeters);
     //SmartDashboard.putNumber("targetX", m_angleX );
     

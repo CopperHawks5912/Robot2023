@@ -4,12 +4,12 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
+//import com.pathplanner.lib.PathConstraints;
+//import com.pathplanner.lib.PathPlanner;
+//import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
+//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,16 +31,16 @@ import frc.robot.commands.Grabber.OpenGrabberCommand;
 import frc.robot.commands.LED.AllianceLEDCommand;
 import frc.robot.commands.LED.ConeLEDCommand;
 import frc.robot.commands.LED.CubeLEDCommand;
-import frc.robot.commands.LED.RainbowLEDCommand;
+//import frc.robot.commands.LED.RainbowLEDCommand;
 import frc.robot.commands.ShiftGear.LowGearCommand;
-import frc.robot.commands.ShiftGear.SwitchGearCommand;
+//import frc.robot.commands.ShiftGear.SwitchGearCommand;
 import frc.robot.subsystems.AddressableLEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.GearShiftSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.utilities.ArmPosition;
-import frc.robot.utilities.LimelightHelpers;
+//import frc.robot.utilities.LimelightHelpers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

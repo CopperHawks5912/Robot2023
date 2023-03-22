@@ -1,25 +1,16 @@
 <xml version="1.0">
 <dashboard>
 	<widget field="Current AutoDrive Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="179"/>
+		<location x="-9" y="186"/>
 	</widget>
 	<widget field="Drive Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="159"/>
+		<location x="59" y="162"/>
 	</widget>
 	<widget field="Forward Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="91"/>
-	</widget>
-	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="71"/>
-	</widget>
-	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="51"/>
-	</widget>
-	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="31"/>
+		<location x="43" y="211"/>
 	</widget>
 	<widget field="Drive Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="39" y="139"/>
+		<location x="48" y="137"/>
 	</widget>
 	<widget field="Good Enough!" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="414" y="193"/>
@@ -71,17 +62,20 @@
 		<location x="228" y="60"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="835" y="6"/>
+		<location x="540" y="-3"/>
 	</static-widget>
 	<widget field="ArmSubsystem" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
 		<location x="409" y="34"/>
 	</widget>
 	<widget field="Auto-Node:" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="68" y="219"/>
+		<location x="6" y="9"/>
 	</widget>
 	<widget field="Auto-Drive:" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
-		<location x="179" y="237"/>
+		<location x="96" y="10"/>
 	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="540" y="-3"/>
+	</static-widget>
 </dashboard>
 <live-window>
 </live-window>

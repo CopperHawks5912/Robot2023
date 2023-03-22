@@ -178,10 +178,10 @@ public class RobotContainer {
         autoDriveSpeed = 0.0;
         break;
       case AutoConstants.kShortReverse:
-        autoDriveDistance = 1.0;
+        autoDriveDistance = 3.5;
         break;
       case AutoConstants.kLongReverse:
-         autoDriveDistance = 2.0;        
+         autoDriveDistance = 5.0;        
         break; 
     }   
     auto = new LowGearCommand(m_GearShiftSubsystem) 

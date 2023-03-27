@@ -99,10 +99,10 @@ public class ArmSubsystem extends SubsystemBase {
 		m_elbowTalon.config_kD(ArmConstants.kPIDProfileSlotIndex, ArmConstants.kElbowGains.kD, kTimeoutMs);
 
     /* Set acceleration and vcruise velocity - see documentation */
-		m_shoulderTalon.configMotionCruiseVelocity(200, kTimeoutMs);
-		m_shoulderTalon.configMotionAcceleration(200, kTimeoutMs);
-		m_elbowTalon.configMotionCruiseVelocity(200, kTimeoutMs);
-		m_elbowTalon.configMotionAcceleration(200, kTimeoutMs);
+		m_shoulderTalon.configMotionCruiseVelocity(ArmConstants.kShoulderCruiseVelocity, kTimeoutMs);
+		m_shoulderTalon.configMotionAcceleration( ArmConstants.kShoulderAcceleration, kTimeoutMs);
+		m_elbowTalon.configMotionCruiseVelocity(ArmConstants.kElbowCruiseVelocity, kTimeoutMs);
+		m_elbowTalon.configMotionAcceleration(ArmConstants.kElbowAcceleration, kTimeoutMs);
 
 		/* Zero the sensor once on robot boot up */
 		m_shoulderTalon.setSelectedSensorPosition(0, ArmConstants.kPIDLoopIndex, kTimeoutMs);
@@ -211,7 +211,7 @@ public class ArmSubsystem extends SubsystemBase {
     if( targetElbowPos > currentElbowPos )
     {    
       controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.MotionMagic, targetElbowPos, ArmArbitraryFFMode.kElbow );
-      if( currentElbowPos > m_elbowStartingPosition + ( 0.35 * ( targetElbowPos - m_elbowStartingPosition ) ) )
+      if( currentElbowPos > m_elbowStartingPosition + ( ArmConstants.kElbowFirstPercentage * ( targetElbowPos - m_elbowStartingPosition ) ) )
         controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.MotionMagic, targetShoulderPos, ArmArbitraryFFMode.kShoulder );
       else
         controlJoint( m_shoulderTalon, m_shoulderLimitSwitch, ControlMode.MotionMagic, currentShoulderPos, ArmArbitraryFFMode.kShoulder );

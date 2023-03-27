@@ -4,19 +4,19 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.math.controller.PIDController;
+//import edu.wpi.first.math.controller.RamseteController;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+//import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 //import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+//import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -25,11 +25,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPRamseteCommand;
+//import com.kauailabs.navx.frc.AHRS;
+//import com.pathplanner.lib.PathPlannerTrajectory;
+//import com.pathplanner.lib.commands.PPRamseteCommand;
 
-import edu.wpi.first.wpilibj.SPI;
+//import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.XboxController;
 
@@ -43,9 +43,9 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX m_right2 = new WPI_TalonFX(CANConstants.kRightTopDriveMotorID);
   private WPI_TalonFX m_right3 = new WPI_TalonFX(CANConstants.kRightBackDriveMotorID);
   private DifferentialDrive m_drive = new DifferentialDrive(m_left1, m_right1);    
-  private AHRS m_navX = new AHRS(SPI.Port.kMXP);  
-  private final DifferentialDriveOdometry m_odometry;
-  private DifferentialDriveKinematics m_Kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
+  //private AHRS m_navX = new AHRS(SPI.Port.kMXP);  
+//  private final DifferentialDriveOdometry m_odometry;
+  //private DifferentialDriveKinematics m_Kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackwidthMeters);
   private NeutralMode m_neutralMode;
 
   public DriveSubsystem() {    
@@ -58,8 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
     initializeTalonFX(m_right2, true, m_right1);
     initializeTalonFX(m_right3, false, m_right1);
     resetEncoders();
-    m_odometry = new DifferentialDriveOdometry(
-        m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ), nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ) );
+    //m_odometry = new DifferentialDriveOdometry(
+    //    m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ), nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ) );
   }
 
   @Override
@@ -69,8 +69,8 @@ public class DriveSubsystem extends SubsystemBase {
     //SmartDashboard.putNumber( "Pose Y", m_odometry.getPoseMeters().getY() );
     //SmartDashboard.putNumber( "Left Sensor", m_left1.getSelectedSensorPosition() );
     //SmartDashboard.putNumber( "Right Sensor", m_right1.getSelectedSensorPosition() );
-     m_odometry.update(
-        m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ), nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ) );
+     //m_odometry.update(
+     //   m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ), nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ) );
   }
 
   private void initializeTalonFX( WPI_TalonFX talon, boolean invert, WPI_TalonFX masterTalon ) { // Creates and configures a TalonFX
@@ -84,9 +84,9 @@ public class DriveSubsystem extends SubsystemBase {
     talon.setNeutralMode( NeutralMode.Coast);
   }
   
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-  }
+  //public Pose2d getPose() {
+  //  return //m_odometry.getPoseMeters();
+ // }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds( nativeUnitsToDistanceMeters( m_left1.getSelectedSensorVelocity() ) , nativeUnitsToDistanceMeters( m_right1.getSelectedSensorVelocity() ) );
@@ -96,8 +96,8 @@ public class DriveSubsystem extends SubsystemBase {
     resetEncoders();
     //SmartDashboard.putNumber( "Init Left Sensor 1", m_left1.getSelectedSensorPosition() );
     //SmartDashboard.putNumber( "Init Right Sensor 1", m_right1.getSelectedSensorPosition() );
-    m_odometry.resetPosition(
-        m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ),nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ), pose);
+    //m_odometry.resetPosition(
+    //    m_navX.getRotation2d(), nativeUnitsToDistanceMeters( m_left1.getSelectedSensorPosition() ),nativeUnitsToDistanceMeters( m_right1.getSelectedSensorPosition() ), pose);
     //SmartDashboard.putNumber( "Init Pose X", m_odometry.getPoseMeters().getX() );
     //SmartDashboard.putNumber( "Init Pose Y", m_odometry.getPoseMeters().getY() );
     //SmartDashboard.putNumber( "Init Left Sensor 2", m_left1.getSelectedSensorPosition() );
@@ -110,29 +110,29 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
-    return new SequentialCommandGroup(
-        new InstantCommand(() -> {
-          // Reset odometry for the first path you run during auto
-          if(isFirstPath){
-              this.resetOdometry(traj.getInitialPose());
-          }
-        }),
-        new PPRamseteCommand(
-            traj, 
-            this::getPose, // Pose supplier
-            new RamseteController(),
-            new SimpleMotorFeedforward( DriveConstants.kS, DriveConstants.kV, DriveConstants.kA),
-            this.m_Kinematics, // DifferentialDriveKinematics
-            this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
-            new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-            new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
-            this::tankDriveVolts, // Voltage biconsumer
-            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-            this // Requires this drive subsystem
-        )
-    );
-}
+  // public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+  //   return new SequentialCommandGroup(
+  //       new InstantCommand(() -> {
+  //         // Reset odometry for the first path you run during auto
+  //         if(isFirstPath){
+  //             this.resetOdometry(traj.getInitialPose());
+  //         }
+  //       }),
+  //       new PPRamseteCommand(
+  //           traj, 
+  //           this::getPose, // Pose supplier
+  //           new RamseteController(),
+  //           new SimpleMotorFeedforward( DriveConstants.kS, DriveConstants.kV, DriveConstants.kA),
+  //           this.m_Kinematics, // DifferentialDriveKinematics
+  //           this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
+  //           new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+  //           new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+  //           this::tankDriveVolts, // Voltage biconsumer
+  //           true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+  //           this // Requires this drive subsystem
+  //       )
+  //   );
+// }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     m_left1.setVoltage(leftVolts);
@@ -166,7 +166,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_navX.reset();
+    //m_navX.reset();
   }
 
   /**
@@ -175,7 +175,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return m_navX.getRotation2d().getDegrees();
+    return 0; //m_navX.getRotation2d().getDegrees();
   }
 
   /**
@@ -184,7 +184,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return -m_navX.getRate();
+    return 0; //-m_navX.getRate();
   }
 
   public double getDistanceTravelledMeters(double startingSensorCount) {

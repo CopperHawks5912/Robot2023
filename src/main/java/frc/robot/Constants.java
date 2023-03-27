@@ -36,8 +36,15 @@ public final class Constants {
 
     public static final double kShoulderMaxPeakOutputForward = 0.7;
     public static final double kShoulderMaxPeakOutputReverse = -0.7;
-    public static final double kElbowMaxPeakOutputForward = 0.4;
-    public static final double kElbowMaxPeakOutputReverse = -0.2;
+    public static final double kElbowMaxPeakOutputForward = 1.0;//0.4;
+    public static final double kElbowMaxPeakOutputReverse = -0.4;
+
+    public static final double kShoulderCruiseVelocity = 700;//450; //200
+    public static final double kShoulderAcceleration = 500;//450; //200
+    public static final double kElbowCruiseVelocity = 1200;//900; //200
+    public static final double kElbowAcceleration = 900;//900; //200
+
+    public static final double kElbowFirstPercentage = 0.0; //0.35
 
     public static final int kShoulderHorizontalPosition = -5500;
     public static final int kElbowHorizontalPosition = 2200;
@@ -58,13 +65,13 @@ public final class Constants {
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2500, "Substation");
+    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2575, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6700, "Upper Cone");
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2900, 5800, "Upper Cube");
-    public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3100, "Lower Cube");
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6800, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2600, 5675, "Upper Cube");
+    public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3175, "Lower Cube");
 
     public static final ArmPosition kAutoLowerConePosition = new ArmPosition(-1300, 3750, "Lower Cone");
     public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2900, 6700, "Upper Cone");

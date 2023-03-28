@@ -68,7 +68,7 @@ public final class Constants {
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2575, "Substation");
+    public static final ArmPosition kSubstationPosition = new ArmPosition(-400, 2850, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");

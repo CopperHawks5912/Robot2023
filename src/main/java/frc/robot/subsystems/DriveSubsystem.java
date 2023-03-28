@@ -154,6 +154,10 @@ public class DriveSubsystem extends SubsystemBase {
   public double getAverageEncoderDistance() {
     return (m_left1.getSelectedSensorPosition());// + m_right1.getSelectedSensorPosition()) / 2.0;
   }
+  
+  public double getLeftEncoderUnits() {
+    return (m_left1.getSelectedSensorPosition());
+  }
 
   /**
    * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.

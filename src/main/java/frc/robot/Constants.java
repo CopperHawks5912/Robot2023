@@ -33,6 +33,9 @@ public final class Constants {
 
     public static final double kElbowMaxManualForwardSpeed = 0.05;
     public static final double kElbowMaxManualReverseSpeed = 0.12;
+    
+    public static final double kElbowManualForwardPositionMultiplier = 30;
+    public static final double kElbowManualReversePositionMultiplier = 30;
 
     public static final double kShoulderMaxPeakOutputForward = 0.7;
     public static final double kShoulderMaxPeakOutputReverse = -0.7;
@@ -41,10 +44,10 @@ public final class Constants {
 
     public static final double kShoulderCruiseVelocity = 700;//450; //200
     public static final double kShoulderAcceleration = 500;//450; //200
-    public static final double kElbowCruiseVelocity = 1200;//900; //200
-    public static final double kElbowAcceleration = 900;//900; //200
+    public static final double kElbowCruiseVelocity = 1000;//900; //200
+    public static final double kElbowAcceleration = 600;//900; //200
 
-    public static final double kElbowFirstPercentage = 0.0; //0.35
+    public static final double kElbowFirstPercentage = 0.15; //0.35
 
     public static final int kShoulderHorizontalPosition = -5500;
     public static final int kElbowHorizontalPosition = 2200;

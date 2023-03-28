@@ -24,6 +24,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.Arm.AutoPositionArmCommand;
 import frc.robot.commands.Arm.ManualArmCommand;
+import frc.robot.commands.Drivetrain.AutoDriveCircleCommand;
 import frc.robot.commands.Drivetrain.AutoDriveDistanceCommand;
 import frc.robot.commands.Drivetrain.ManualDriveCommand;
 import frc.robot.commands.Grabber.CloseGrabberCommand;
@@ -170,15 +171,19 @@ public class RobotContainer {
     }
     double autoDriveDistance = 0.0;
     double autoDriveSpeed = 0.5;
+    double autoTurnSpeed = -0.5;
+    double autoTurnEncoderUnits = 280000;//55000;
 
     switch( m_selectedDriveAuto )
     {
       case AutoConstants.kNoReverse:
         autoDriveDistance = 0.0;
         autoDriveSpeed = 0.0;
+        autoTurnSpeed = 0;
+        autoTurnEncoderUnits = 0;
         break;
       case AutoConstants.kShortReverse:
-        autoDriveDistance = 3.5;
+        autoDriveDistance = 1.75;//3.5;
         break;
       case AutoConstants.kLongReverse:
          autoDriveDistance = 5.0;        
@@ -188,12 +193,14 @@ public class RobotContainer {
            .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
            .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
            .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
-           .andThen( new WaitCommand(0.75))
+           .andThen( new WaitCommand(2.0))
            .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
            .andThen( new WaitCommand(0.75))
            .andThen( new ParallelCommandGroup(
               new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
-              new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, autoDriveSpeed) ) );
+              new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, autoDriveSpeed) ) )
+            .andThen( new AutoDriveCircleCommand(m_driveSubsystem, autoTurnEncoderUnits, autoTurnSpeed)
+            );
     
     // auto = new LowGearCommand(m_GearShiftSubsystem);
 

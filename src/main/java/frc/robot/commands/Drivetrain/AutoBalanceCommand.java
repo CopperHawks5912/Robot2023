@@ -1,5 +1,7 @@
 package frc.robot.commands.Drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utilities.AutoBalanceNoNavX;
@@ -42,7 +44,7 @@ public class AutoBalanceCommand extends CommandBase {
             m_autoBalanceWithNavX.autoBalanceRoutine();
           else
             m_autoBalanceNoNavX.autoBalanceRoutine();
-          m_driveSubsystem.tankDrive(speed, speed, false);
+          m_driveSubsystem.tankDrive(speed, speed, false, NeutralMode.Brake );
         }
       
         // Called once the command ends or is interrupted.

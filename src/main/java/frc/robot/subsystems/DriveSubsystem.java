@@ -110,9 +110,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
-  public void tankDrive(double fwdLeft, double fwdRight, boolean squareInputs) {
+  public void tankDrive(double fwdLeft, double fwdRight, boolean squareInputs, NeutralMode neutralMode ) {
     SmartDashboard.putNumber( "Forward Speed", fwdLeft);
     //SmartDashboard.putNumber( "Rotate Speed", rot);
+    setNeutralMode( neutralMode );
+
     m_drive.tankDrive(fwdLeft, fwdRight, squareInputs);
   }
 

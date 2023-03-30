@@ -110,6 +110,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
   }
 
+  public void tankDrive(double fwdLeft, double fwdRight, boolean squareInputs) {
+    SmartDashboard.putNumber( "Forward Speed", fwdLeft);
+    //SmartDashboard.putNumber( "Rotate Speed", rot);
+    m_drive.tankDrive(fwdLeft, fwdRight, squareInputs);
+  }
+
   // public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
   //   return new SequentialCommandGroup(
   //       new InstantCommand(() -> {
@@ -139,6 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_right1.setVoltage(rightVolts);
     m_drive.feed();
   }
+  
 
 
   public void resetEncoders() {

@@ -24,6 +24,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.commands.Arm.AutoPositionArmCommand;
 import frc.robot.commands.Arm.ManualArmCommand;
+import frc.robot.commands.Drivetrain.AutoBalanceCommand;
 import frc.robot.commands.Drivetrain.AutoDriveCircleCommand;
 import frc.robot.commands.Drivetrain.AutoDriveDistanceCommand;
 import frc.robot.commands.Drivetrain.ManualDriveCommand;
@@ -101,8 +102,10 @@ public class RobotContainer {
     m_autoNodeChooser.addOption( AutoConstants.kLowerCube, AutoConstants.kLowerCube);
     m_autoNodeChooser.addOption( AutoConstants.kUpperCube, AutoConstants.kUpperCube);
     m_autoDriveChooser.setDefaultOption( AutoConstants.kNoReverse, AutoConstants.kNoReverse);
-    m_autoDriveChooser.addOption( AutoConstants.kShortReverse, AutoConstants.kShortReverse);
-    m_autoDriveChooser.addOption( AutoConstants.kLongReverse, AutoConstants.kLongReverse);
+    m_autoDriveChooser.setDefaultOption( AutoConstants.kAutoBalanceNoNavX, AutoConstants.kAutoBalanceNoNavX);
+    m_autoDriveChooser.setDefaultOption( AutoConstants.kAutoBalanceWithNavX, AutoConstants.kAutoBalanceWithNavX);
+    m_autoDriveChooser.addOption( AutoConstants.kShortReverseAndSpin, AutoConstants.kShortReverseAndSpin);
+    m_autoDriveChooser.addOption( AutoConstants.kLongReverseAndSpin, AutoConstants.kLongReverseAndSpin);
     SmartDashboard.putData("Auto-Node:", m_autoNodeChooser );
     SmartDashboard.putData("Auto-Drive:", m_autoDriveChooser );
 
@@ -172,74 +175,54 @@ public class RobotContainer {
     double autoDriveDistance = 0.0;
     double autoDriveSpeed = 0.5;
     double autoTurnSpeed = -0.5;
-    double autoTurnEncoderUnits = 280000;//55000;
-
+    double autoTurnEncoderUnits = 55000;//280000;//55000;
+    boolean useNavX = false;
     switch( m_selectedDriveAuto )
     {
       case AutoConstants.kNoReverse:
+      case AutoConstants.kAutoBalanceNoNavX:
+      case AutoConstants.kAutoBalanceWithNavX:
         autoDriveDistance = 0.0;
         autoDriveSpeed = 0.0;
         autoTurnSpeed = 0;
         autoTurnEncoderUnits = 0;
         break;
-      case AutoConstants.kShortReverse:
-        autoDriveDistance = 1.75;//3.5;
+      case AutoConstants.kShortReverseAndSpin:
+        autoDriveDistance = 3.5;
         break;
-      case AutoConstants.kLongReverse:
-         autoDriveDistance = 5.0;        
+      case AutoConstants.kLongReverseAndSpin:
+         autoDriveDistance = 4.5;  //5.0      
         break; 
-    }   
-    auto = new LowGearCommand(m_GearShiftSubsystem) 
-           .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
-           .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
-           .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
-           .andThen( new WaitCommand(2.0))
-           .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
-           .andThen( new WaitCommand(0.75))
-           .andThen( new ParallelCommandGroup(
-              new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
-              new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, autoDriveSpeed) ) )
-            .andThen( new AutoDriveCircleCommand(m_driveSubsystem, autoTurnEncoderUnits, autoTurnSpeed)
-            );
-    
-    // auto = new LowGearCommand(m_GearShiftSubsystem);
-
-    // switch( m_selectedNodeAuto )
-    // {
-    //   case AutoConstants.kLowerCone:
-    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerConePosition) );
-    //     break;
-    //   case AutoConstants.kUpperCone:
-    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
-    //     break;
-    //   case AutoConstants.kLowerCube:
-    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) );
-    //     break;
-    //   case AutoConstants.kUpperCube:
-    //     auto = auto.andThen( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kUpperConePosition) );
-    //     break;
-    // }
-    // auto = auto.andThen(new OpenGrabberCommand(m_GrabberSubsystem))
-    //             .andThen( new WaitCommand(0.75));
-    
-    // double autoDriveDistance = 0.0;
-
-    // switch( m_selectedDriveAuto )
-    // {
-    //   case AutoConstants.kNoReverse:
-    //     autoDriveDistance = 0.0;
-    //     break;
-    //   case AutoConstants.kShortReverse:
-    //     autoDriveDistance = 1.0;
-    //     break;
-    //   case AutoConstants.kLongReverse:
-    //      autoDriveDistance = 2.0;        
-    //     break; 
-    // }   
-    // auto = auto.andThen( new ParallelCommandGroup(
-    //                       new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
-    //                       new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, -0.4) ) );
-
+    }       
+    if( m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX || 
+        m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX)
+    {
+      useNavX = m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX; 
+      auto = new LowGearCommand(m_GearShiftSubsystem) 
+            .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
+            .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
+            .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
+            .andThen( new WaitCommand(2.0))
+            .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
+            .andThen( new WaitCommand(0.75))
+            .andThen( new ParallelCommandGroup(
+                new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+                new AutoBalanceCommand(m_driveSubsystem, useNavX ) ) );
+    }
+    else
+    {
+      auto = new LowGearCommand(m_GearShiftSubsystem) 
+            .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
+            .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
+            .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
+            .andThen( new WaitCommand(2.0))
+            .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
+            .andThen( new WaitCommand(0.75))
+            .andThen( new ParallelCommandGroup(
+                new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kDefaultPosition), 
+                new AutoDriveDistanceCommand(m_driveSubsystem, autoDriveDistance, autoDriveSpeed) ) )
+              .andThen( new AutoDriveCircleCommand(m_driveSubsystem, autoTurnEncoderUnits, autoTurnSpeed) );  
+    }
     return auto;
 
     // PathPlannerTrajectory examplePath = PathPlanner.loadPath("SBend", new PathConstraints(4, 3));

@@ -112,9 +112,18 @@ public final class Constants {
     public static final String kLowerCone = "LowerCone";
     public static final String kUpperCube = "UpperCube";
     public static final String kLowerCube = "LowerCube";
-    public static final String kLongReverse = "LongReverse";
-    public static final String kShortReverse = "ShortReverse";
+    public static final String kLongReverseAndSpin = "LongReverseAndSpin";
+    public static final String kShortReverseAndSpin = "ShortReverseAndSpin";
     public static final String kNoReverse = "NoReverse";
+    public static final String kAutoBalanceNoNavX = "AutoBalance-NoNavX";
+    public static final String kAutoBalanceWithNavX = "AutoBalance-WITHNavX";
+
+    public static final double kAutoBalanceFastSpeed = 0.4;
+    public static final double kAutoBalanceSlowSpeed = 0.2;
+    public static final double kAutoBalanceOnChargeStationDegree = 13.0;
+    public static final double kAutoBalanceLevelDegree = 6.0;
+    public static final double kAutoBalanceDebounceSeconds = 0.2;
+
   }
   public static class DIOConstants
   {

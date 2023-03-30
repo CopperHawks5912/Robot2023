@@ -1,5 +1,11 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Current Turn Units" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="251"/>
+	</widget>
+	<widget field="Drive Turn Units" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="231"/>
+	</widget>
 	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="379" y="211"/>
 	</widget>

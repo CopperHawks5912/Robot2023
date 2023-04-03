@@ -102,7 +102,7 @@ public class RobotContainer {
     m_autoNodeChooser.addOption( AutoConstants.kLowerCube, AutoConstants.kLowerCube);
     m_autoNodeChooser.addOption( AutoConstants.kUpperCube, AutoConstants.kUpperCube);
     m_autoDriveChooser.setDefaultOption( AutoConstants.kNoReverse, AutoConstants.kNoReverse);
-    m_autoDriveChooser.setDefaultOption( AutoConstants.kAutoBalanceNoNavX, AutoConstants.kAutoBalanceNoNavX);
+    //m_autoDriveChooser.setDefaultOption( AutoConstants.kAutoBalanceNoNavX, AutoConstants.kAutoBalanceNoNavX);
     m_autoDriveChooser.setDefaultOption( AutoConstants.kAutoBalanceWithNavX, AutoConstants.kAutoBalanceWithNavX);
     m_autoDriveChooser.addOption( AutoConstants.kShortReverseAndSpin, AutoConstants.kShortReverseAndSpin);
     m_autoDriveChooser.addOption( AutoConstants.kLongReverseAndSpin, AutoConstants.kLongReverseAndSpin);
@@ -138,7 +138,7 @@ public class RobotContainer {
     m_secondController.button(ControllerConstants.kButtonRedLower3)
       .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
     m_secondController.button(ControllerConstants.kButtonBlack2 )
-      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kGroundPosition) ); 
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kAutoUpperCubePosition) ); 
 
     m_secondController.button(ControllerConstants.kButtonBlack1)
       .onTrue( new ManualArmCommand(m_armSubsystem, m_secondController.getHID()) );
@@ -195,14 +195,17 @@ public class RobotContainer {
         break; 
     }       
     if( m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX || 
-        m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX)
+        m_selectedDriveAuto == AutoConstants.kAutoBalanceWithNavX)
     {
-      useNavX = m_selectedDriveAuto == AutoConstants.kAutoBalanceNoNavX; 
+      useNavX = m_selectedDriveAuto == AutoConstants.kAutoBalanceWithNavX; 
+      
+      //auto = new AutoBalanceCommand(m_driveSubsystem, useNavX );
+       
       auto = new LowGearCommand(m_GearShiftSubsystem) 
             .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
             .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
             .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
-            .andThen( new WaitCommand(2.0))
+            //.andThen( new WaitCommand(2.0))
             .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
             .andThen( new WaitCommand(0.75))
             .andThen( new ParallelCommandGroup(
@@ -211,11 +214,11 @@ public class RobotContainer {
     }
     else
     {
-      auto = new LowGearCommand(m_GearShiftSubsystem) 
+       auto = new LowGearCommand(m_GearShiftSubsystem)
             .andThen( new AllianceLEDCommand(m_addressableLEDSubsystem) ) 
             .andThen( new CloseGrabberCommand(m_GrabberSubsystem) )
             .andThen( new AutoPositionArmCommand(m_armSubsystem, position) )
-            .andThen( new WaitCommand(2.0))
+            //.andThen( new WaitCommand(2.0))
             .andThen( new OpenGrabberCommand(m_GrabberSubsystem))
             .andThen( new WaitCommand(0.75))
             .andThen( new ParallelCommandGroup(

@@ -72,13 +72,17 @@ public final class Constants {
     public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6800, "Upper Cone");
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2600, 5675, "Upper Cube");
     public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3175, "Lower Cube");
-
+    
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2660, 6200, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2300, 5875, "Upper Cube");
+    
+    // public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6800, "Upper Cone");
+    // public static final ArmPosition kUpperCubePosition = new ArmPosition( -2600, 5675, "Upper Cube");
+    
     public static final ArmPosition kAutoLowerConePosition = new ArmPosition(-1300, 3750, "Lower Cone");
-    public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2900, 6700, "Upper Cone");
-    public static final ArmPosition kAutoUpperCubePosition = new ArmPosition( -2750, 5800, "Upper Cube");
+    public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2500, 6400, "Upper Cone");
+    public static final ArmPosition kAutoUpperCubePosition = new ArmPosition( -2750, 5950, "Upper Cube");
     public static final ArmPosition kAutoLowerCubePosition = new ArmPosition( -1450, 3100, "Lower Cube");
     
     
@@ -118,8 +122,8 @@ public final class Constants {
     public static final String kAutoBalanceNoNavX = "AutoBalance-NoNavX";
     public static final String kAutoBalanceWithNavX = "AutoBalance-WITHNavX";
 
-    public static final double kAutoBalanceFastSpeed = 0.4;
-    public static final double kAutoBalanceSlowSpeed = 0.2;
+    public static final double kAutoBalanceFastSpeed = 0.25;
+    public static final double kAutoBalanceSlowSpeed = 0.13;
     public static final double kAutoBalanceOnChargeStationDegree = 13.0;
     public static final double kAutoBalanceLevelDegree = 6.0;
     public static final double kAutoBalanceDebounceSeconds = 0.2;

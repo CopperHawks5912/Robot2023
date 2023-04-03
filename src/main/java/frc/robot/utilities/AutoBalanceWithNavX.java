@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 
 public class AutoBalanceWithNavX {
@@ -18,7 +19,7 @@ public class AutoBalanceWithNavX {
     private double doubleTapTime;
 
     public AutoBalanceWithNavX() {        
-        m_navX = new AHRS(SPI.Port.kMXP);  
+        m_navX = new AHRS(SPI.Port.kMXP); 
         state = 0;
         debounceCount = 0;
 
@@ -29,7 +30,7 @@ public class AutoBalanceWithNavX {
         robotSpeedFast = AutoConstants.kAutoBalanceFastSpeed;//0.4;
 
         // Speed the robot drives while balancing itself on the charge station.
-        // Should be roughly half the fast speed, to make the robot more accurate,
+         // Should be roughly half the fast speed, to make the robot more accurate,
         // default = 0.2
         robotSpeedSlow = AutoConstants.kAutoBalanceSlowSpeed; //0.2;
 
@@ -75,13 +76,20 @@ public class AutoBalanceWithNavX {
     // returns the magnititude of the robot's tilt calculated by the root of
     // pitch^2 + roll^2, used to compensate for diagonally mounted rio
     public double getTilt() {
+        double tilt;
         double pitch = getPitch();
         double roll = getRoll();
-        if ((pitch + roll) >= 0) {
-            return Math.sqrt(pitch * pitch + roll * roll);
-        } else {
-            return -Math.sqrt(pitch * pitch + roll * roll);
-        }
+        
+        tilt = roll;
+        // if ((pitch + roll) >= 0) {
+        //     tilt = Math.sqrt(pitch * pitch + roll * roll);
+        // } else {
+        //     tilt = -Math.sqrt(pitch * pitch + roll * roll);
+        // }
+        SmartDashboard.putNumber("Pitch", pitch);
+        SmartDashboard.putNumber("Roll", roll);
+        SmartDashboard.putNumber("Tilt", tilt);
+        return tilt;
     }
 
     public int secondsToTicks(double time) {
@@ -92,6 +100,7 @@ public class AutoBalanceWithNavX {
     // returns a value from -1.0 to 1.0, which left and right motors should be set
     // to.
     public double autoBalanceRoutine() {
+        SmartDashboard.putNumber("Balance State", state);
         switch (state) {
             // drive forwards to approach station, exit when tilt is detected
             case 0:

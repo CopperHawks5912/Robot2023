@@ -41,9 +41,9 @@ public class AutoBalanceCommand extends CommandBase {
         public void execute() {
           double speed = 0;
           if( m_useNavX )
-            m_autoBalanceWithNavX.autoBalanceRoutine();
+            speed = m_autoBalanceWithNavX.autoBalanceRoutine();
           else
-            m_autoBalanceNoNavX.autoBalanceRoutine();
+            speed = m_autoBalanceNoNavX.autoBalanceRoutine();
           m_driveSubsystem.tankDrive(speed, speed, false, NeutralMode.Brake );
         }
       

@@ -40,9 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
     /* (sample code comment)
 	     set to zero to skip waiting for confirmation, set to nonzero to wait and
 	     report to DS if action fails.*/
-    
-    m_currentTarget = ArmConstants.kDefaultPosition;
-    
+    m_currentTarget = new ArmPosition(0, 0, "notSet" );
+    m_currentTarget.setPosition( ArmConstants.kDefaultPosition );
     m_shoulderTalon.configFactoryDefault();
     m_shoulderVictor.configFactoryDefault();
     m_elbowTalon.configFactoryDefault();
@@ -134,15 +133,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void manualControl( double elbowSpeed ) {
+    ArmPosition manualArmPosition = new ArmPosition(0, 0, "manualOverride");
+    manualArmPosition.setPosition( m_currentTarget );
+
     if( elbowSpeed == 0)
     {
-      double currentElbowPosition = m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex); 
-      controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.MotionMagic, currentElbowPosition, ArmArbitraryFFMode.kElbow );
+      manualArmPosition.setElbowPosition(m_elbowTalon.getSelectedSensorPosition(ArmConstants.kPIDLoopIndex));
     }  
     else
-      controlJoint( m_elbowTalon, m_elbowLimitSwitch, ControlMode.PercentOutput, elbowSpeed, ArmArbitraryFFMode.kNone );
+    {
+      manualArmPosition.setElbowPosition( manualArmPosition.getElbowPosition() + elbowSpeed ); 
+    }
+    moveArmToPosition( manualArmPosition );
   }
-  
   public void controlJoint( WPI_TalonSRX talon, DigitalInput limitSwitch, ControlMode controlMode, double controlValue, ArmArbitraryFFMode arbitraryFFMode ) { 
     if( limitSwitch.get() ) {     
       talon.stopMotor();  
@@ -201,7 +204,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
   public void moveArmToPosition( ArmPosition armPosition )
   {
-    m_currentTarget = armPosition;
+    m_currentTarget.setPosition(armPosition);
     
     double targetShoulderPos = armPosition.getShoulderPosition();
     double targetElbowPos = armPosition.getElbowPosition();

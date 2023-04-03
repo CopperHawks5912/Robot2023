@@ -30,14 +30,14 @@ public class ManualArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double elbowSpeed = 0;
+    double elbowPositionChange = 0;
     
-    elbowSpeed = m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
-    if(elbowSpeed > 1)
-      elbowSpeed = elbowSpeed * ArmConstants.kElbowMaxManualForwardSpeed;      
-    if(elbowSpeed < 1)
-      elbowSpeed = elbowSpeed * ArmConstants.kElbowMaxManualReverseSpeed;      
-    m_armSubsystem.manualControl(elbowSpeed);
+    elbowPositionChange= m_controller.getRawAxis(ControllerConstants.kVerticalAxis);
+    if(elbowPositionChange == 1)
+      elbowPositionChange = elbowPositionChange * ArmConstants.kElbowManualForwardPositionMultiplier;      
+    else if(elbowPositionChange == -1)
+      elbowPositionChange = elbowPositionChange * ArmConstants.kElbowManualReversePositionMultiplier;      
+    m_armSubsystem.manualControl(elbowPositionChange);
   }
 
   // Called once the command ends or is interrupted.

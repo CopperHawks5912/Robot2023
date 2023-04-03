@@ -1,31 +1,49 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Roll" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="436" y="317"/>
+	</widget>
+	<widget field="Pitch" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="459" y="280"/>
+	</widget>
+	<widget field="Tilt" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="472" y="233"/>
+	</widget>
+	<widget field="Balance State" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="423" y="256"/>
+	</widget>
+	<widget field="Current Turn Units" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="38" y="316"/>
+	</widget>
+	<widget field="Drive Turn Units" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="49" y="288"/>
+	</widget>
 	<widget field="limelight_Interface" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="379" y="211"/>
+		<location x="255" y="257"/>
 	</widget>
 	<widget field="limelight_Stream" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="379" y="0"/>
+		<location x="264" y="282"/>
 	</widget>
 	<widget field="limelight_PipelineName" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="196" y="0"/>
+		<location x="234" y="232"/>
 	</widget>
 	<widget field="Current AutoDrive Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="-9" y="186"/>
+		<location x="3" y="238"/>
 	</widget>
 	<widget field="Drive Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="59" y="162"/>
+		<location x="73" y="210"/>
 	</widget>
 	<widget field="Forward Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="43" y="211"/>
+		<location x="55" y="262"/>
 	</widget>
 	<widget field="Drive Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="48" y="137"/>
+		<location x="65" y="188"/>
 	</widget>
 	<widget field="Good Enough!" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="414" y="193"/>
 	</widget>
 	<widget field="Init AutoDrive Sensor" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="16" y="113"/>
+		<location x="32" y="165"/>
 	</widget>
 	<widget field="Target" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="275" y="36"/>

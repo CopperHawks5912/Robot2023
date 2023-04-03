@@ -33,6 +33,9 @@ public final class Constants {
 
     public static final double kElbowMaxManualForwardSpeed = 0.05;
     public static final double kElbowMaxManualReverseSpeed = 0.12;
+    
+    public static final double kElbowManualForwardPositionMultiplier = 30;
+    public static final double kElbowManualReversePositionMultiplier = 30;
 
     public static final double kShoulderMaxPeakOutputForward = 0.7;
     public static final double kShoulderMaxPeakOutputReverse = -0.7;
@@ -41,10 +44,10 @@ public final class Constants {
 
     public static final double kShoulderCruiseVelocity = 700;//450; //200
     public static final double kShoulderAcceleration = 500;//450; //200
-    public static final double kElbowCruiseVelocity = 1200;//900; //200
-    public static final double kElbowAcceleration = 900;//900; //200
+    public static final double kElbowCruiseVelocity = 1000;//900; //200
+    public static final double kElbowAcceleration = 600;//900; //200
 
-    public static final double kElbowFirstPercentage = 0.0; //0.35
+    public static final double kElbowFirstPercentage = 0.15; //0.35
 
     public static final int kShoulderHorizontalPosition = -5500;
     public static final int kElbowHorizontalPosition = 2200;
@@ -65,17 +68,21 @@ public final class Constants {
          the first is the angle from default position for the shoulder (ArmConstants.kShoulderPositionIndex), 
          the second is the angle from default position for the elbow (ArmConstants.kElbowPositionIndex), */
     public static final ArmPosition kDefaultPosition = new ArmPosition(0, 0, "Default");
-    public static final ArmPosition kSubstationPosition = new ArmPosition(0, 2575, "Substation");
+    public static final ArmPosition kSubstationPosition = new ArmPosition(-400, 2850, "Substation");
     public static final ArmPosition kGroundPosition = new ArmPosition(-2250, 750, "Ground");
 
     public static final ArmPosition kLowerConePosition = new ArmPosition(-1650, 3900, "Lower Cone");
-    public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6800, "Upper Cone");
-    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2600, 5675, "Upper Cube");
     public static final ArmPosition kLowerCubePosition = new ArmPosition( -1600, 3175, "Lower Cube");
-
+    
+    public static final ArmPosition kUpperConePosition = new ArmPosition(-2660, 6200, "Upper Cone");
+    public static final ArmPosition kUpperCubePosition = new ArmPosition( -2300, 5875, "Upper Cube");
+    
+    // public static final ArmPosition kUpperConePosition = new ArmPosition(-2960, 6800, "Upper Cone");
+    // public static final ArmPosition kUpperCubePosition = new ArmPosition( -2600, 5675, "Upper Cube");
+    
     public static final ArmPosition kAutoLowerConePosition = new ArmPosition(-1300, 3750, "Lower Cone");
-    public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2900, 6700, "Upper Cone");
-    public static final ArmPosition kAutoUpperCubePosition = new ArmPosition( -2750, 5800, "Upper Cube");
+    public static final ArmPosition kAutoUpperConePosition = new ArmPosition(-2500, 6400, "Upper Cone");
+    public static final ArmPosition kAutoUpperCubePosition = new ArmPosition( -2750, 5950, "Upper Cube");
     public static final ArmPosition kAutoLowerCubePosition = new ArmPosition( -1450, 3100, "Lower Cube");
     
     
@@ -109,9 +116,18 @@ public final class Constants {
     public static final String kLowerCone = "LowerCone";
     public static final String kUpperCube = "UpperCube";
     public static final String kLowerCube = "LowerCube";
-    public static final String kLongReverse = "LongReverse";
-    public static final String kShortReverse = "ShortReverse";
+    public static final String kLongReverseAndSpin = "LongReverseAndSpin";
+    public static final String kShortReverseAndSpin = "ShortReverseAndSpin";
     public static final String kNoReverse = "NoReverse";
+    public static final String kAutoBalanceNoNavX = "AutoBalance-NoNavX";
+    public static final String kAutoBalanceWithNavX = "AutoBalance-WITHNavX";
+
+    public static final double kAutoBalanceFastSpeed = 0.25;
+    public static final double kAutoBalanceSlowSpeed = 0.13;
+    public static final double kAutoBalanceOnChargeStationDegree = 13.0;
+    public static final double kAutoBalanceLevelDegree = 6.0;
+    public static final double kAutoBalanceDebounceSeconds = 0.2;
+
   }
   public static class DIOConstants
   {

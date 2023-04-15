@@ -33,8 +33,10 @@ import frc.robot.commands.Grabber.OpenGrabberCommand;
 import frc.robot.commands.LED.AllianceLEDCommand;
 import frc.robot.commands.LED.ConeLEDCommand;
 import frc.robot.commands.LED.CubeLEDCommand;
+import frc.robot.commands.ShiftGear.HighGearCommand;
 //import frc.robot.commands.LED.RainbowLEDCommand;
 import frc.robot.commands.ShiftGear.LowGearCommand;
+import frc.robot.commands.ShiftGear.SwitchGearCommand;
 //import frc.robot.commands.ShiftGear.SwitchGearCommand;
 import frc.robot.subsystems.AddressableLEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -77,7 +79,6 @@ public class RobotContainer {
     // Configure default commands
     // Set the default drive command to the ManualDriveCommand
     m_driveSubsystem.setDefaultCommand( new ManualDriveCommand(m_driveSubsystem, m_driverController) );
-    m_GearShiftSubsystem.setDefaultCommand( new LowGearCommand(m_GearShiftSubsystem));
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     table.getEntry("ledMode").setNumber(1);
     table.getEntry("camMode").setNumber(1);
@@ -111,15 +112,25 @@ public class RobotContainer {
 
   }
   private void configureBindings() {
-    //m_driverController.x()
+    // m_driverController.x()
     //  .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
-    //m_driverController.y()
-    //  .onTrue( new AutoDriveDistanceCommand(m_driveSubsystem, -2.0, -0.3) );
-    m_driverController.leftBumper()
-      .onTrue( new ConeLEDCommand(m_addressableLEDSubsystem) );
-    m_driverController.rightBumper()
-      .onTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+    //m_driverController.leftBumper()
+    //  .onTrue( new ConeLEDCommand(m_addressableLEDSubsystem) );
+    //m_driverController.rightBumper()
+    //  .onTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
 
+    m_driverController.leftBumper()
+      .onTrue( new LowGearCommand(m_GearShiftSubsystem));
+    m_driverController.leftTrigger()
+      .onTrue( new LowGearCommand(m_GearShiftSubsystem));
+    m_driverController.rightBumper()
+      .onTrue( new SwitchGearCommand(m_GearShiftSubsystem));
+    m_driverController.b()
+      .onTrue( new CubeLEDCommand(m_addressableLEDSubsystem));
+    m_driverController.y()
+      .onTrue( new ConeLEDCommand(m_addressableLEDSubsystem) );
+      
+    
     m_secondController.button(ControllerConstants.kButtonBlueUpper)
       .onTrue( new OpenGrabberCommand(m_GrabberSubsystem) );
     m_secondController.button(ControllerConstants.kButtonBlueLower)
@@ -138,11 +149,15 @@ public class RobotContainer {
     m_secondController.button(ControllerConstants.kButtonRedLower3)
       .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kLowerCubePosition) ); 
     m_secondController.button(ControllerConstants.kButtonBlack2 )
-      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kAutoUpperCubePosition) ); 
+      .onTrue( new AutoPositionArmCommand(m_armSubsystem, ArmConstants.kGroundPosition) ); 
 
-    m_secondController.button(ControllerConstants.kButtonBlack1)
+    
+      m_secondController.button(ControllerConstants.kButtonBlack1)
       .onTrue( new ManualArmCommand(m_armSubsystem, m_secondController.getHID()) );
-  }
+
+
+
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

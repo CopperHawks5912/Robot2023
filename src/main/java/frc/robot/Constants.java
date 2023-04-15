@@ -163,8 +163,8 @@ public final class Constants {
   }
   
   public static class PCMConstants{
-    public static final int kHighGearID =1;
-    public static final int kLowGearID = 0; 
+    public static final int kHighGearID = 0;
+    public static final int kLowGearID = 1; 
     public static final int kGrabberOpenID = 2;
     public static final int kGrabberCloseID = 3;
   }

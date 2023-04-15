@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ShiftGear;
 
+import frc.robot.Constants.PCMConstants;
 import frc.robot.subsystems.GearShiftSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -29,7 +30,7 @@ public class LowGearCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shiftGearSubsystem.setCurrentGear( GearShiftSubsystem.kLowGear );
+    m_shiftGearSubsystem.setCurrentGear( PCMConstants.kLowGearID );
   }
 
   // Called once the command ends or is interrupted.

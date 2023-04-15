@@ -14,16 +14,13 @@ import static frc.robot.Constants.*;
 public class GearShiftSubsystem extends SubsystemBase {
   private int currentGear;
 
-  public static final int kLowGear = 1;
-  public static final int kHighGear = 2;
-
   private DoubleSolenoid m_shifter = new DoubleSolenoid(CANConstants.kPCMID, 
                                                         PneumaticsModuleType.CTREPCM, 
                                                         PCMConstants.kHighGearID, 
                                                         PCMConstants.kLowGearID);
 
   public GearShiftSubsystem() {    
-     currentGear = kLowGear;
+     currentGear = PCMConstants.kLowGearID;
   }
 
   @Override
@@ -37,18 +34,18 @@ public class GearShiftSubsystem extends SubsystemBase {
 
   public void setCurrentGear(int gear) {
     this.currentGear = gear;
-    if (this.currentGear == kLowGear) {
+    if (this.currentGear == PCMConstants.kLowGearID) {
         m_shifter.set(kReverse);
-    } else if (this.currentGear == kHighGear) {
+    } else if (this.currentGear == PCMConstants.kHighGearID) {
         m_shifter.set(kForward);
      }
 }
 
 public void switchGear() {
-    if (this.currentGear == kLowGear) {
-        setCurrentGear(kHighGear);
+    if (this.currentGear == PCMConstants.kLowGearID) {
+        setCurrentGear(PCMConstants.kHighGearID);
     } else {
-        setCurrentGear(kLowGear);
+        setCurrentGear(PCMConstants.kLowGearID);
     }
 }
 

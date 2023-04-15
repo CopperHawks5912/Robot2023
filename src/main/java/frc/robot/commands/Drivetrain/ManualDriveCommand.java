@@ -54,7 +54,7 @@ public class ManualDriveCommand extends CommandBase {
  
     double maxForwardSpeed;
     double maxRotateSpeed;
-    if( m_xboxController.getRightTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
+    if( m_xboxController.getHID().getLeftBumperPressed() )  //if they're holding down the trigger at least a little, cap the max speed
     {
       m_driveSubsystem.setNeutralMode( NeutralMode.Brake);    
     } 
@@ -62,7 +62,7 @@ public class ManualDriveCommand extends CommandBase {
     {
       m_driveSubsystem.setNeutralMode( NeutralMode.Coast);      
     }
-    if( m_xboxController.getLeftTriggerAxis() > 0.25 )  //if they're holding down the trigger at least a little, cap the max speed
+    if( m_xboxController.getLeftTriggerAxis() > 0.50 )  //if they're holding down the trigger at least a little, cap the max speed
     {
       maxForwardSpeed = DriveConstants.kMaxPrecisionForwardSpeed;
       maxRotateSpeed = DriveConstants.kMaxPrecisionRotateSpeed;
